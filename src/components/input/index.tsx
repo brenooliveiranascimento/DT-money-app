@@ -1,38 +1,101 @@
-import { FC, ReactNode } from "react";
-import { Text, TextInput, TextInputProps, View } from "react-native";
+import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  Text,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { colors } from "@/styles/colors";
+import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 
 interface AppInputParams extends TextInputProps {
   onChangeText: (text: string) => void;
   iconName?: keyof typeof MaterialIcons.glyphMap;
   renderRight?: () => ReactNode;
   label?: string;
+  error?: boolean;
 }
 
 export const AppInput: FC<AppInputParams> = ({
   iconName,
   label,
-  secureTextEntry = false,
+  secureTextEntry,
+  error,
   ...rest
 }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [showText, setShowText] = useState(secureTextEntry);
+
+  const keyboardIsVisible = useKeyboardVisible();
+
+  const inputRef = useRef<TextInput>(null);
+
+  const checkFocus = () => {
+    if (inputRef.current) {
+      setIsFocused(inputRef.current.isFocused());
+    }
+  };
+
+  const defaultColor = error
+    ? "text-warning"
+    : isFocused
+    ? "text-secondary"
+    : "text-gray-600";
+
+  const iconColor = error
+    ? colors["warning"]
+    : isFocused
+    ? colors.secondary
+    : colors.gray["600"];
+
+  const handleSecurityEntry = () => setShowText((prev) => !prev);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      if (!keyboardIsVisible && inputRef.current.isFocused()) {
+        setIsFocused(false);
+      }
+    }
+  }, [keyboardIsVisible]);
+
   return (
-    <View className="mb-7 w-full">
-      {label && <Text className="text-gray-600 mb-2">{label}</Text>}
-      <View className="flex-row items-center border-b-2 border-gray-600 px-1 py-2 h-16">
+    <View className="mb-2 w-full">
+      {label && <Text className={`${defaultColor} mb-2 mt-3`}>{label}</Text>}
+      <TouchableOpacity
+        onPress={() => inputRef.current?.focus()}
+        activeOpacity={1}
+        className="flex-row items-center border-b border-gray-600 px-3 py-2 h-16"
+      >
         {iconName && (
           <MaterialIcons
-            color={"#949494"}
+            color={iconColor}
             className="mr-3"
             name={iconName}
-            size={32}
+            size={26}
           />
         )}
         <TextInput
-          placeholderTextColor={"#949494"}
-          className="flex-1 text-white text-xl"
+          ref={inputRef}
+          placeholderTextColor={colors.gray["600"]}
+          onFocus={checkFocus}
+          onEndEditing={checkFocus}
+          className="flex-1 text-white text-lg"
+          secureTextEntry={showText}
           {...rest}
         />
-      </View>
+        {secureTextEntry && (
+          <TouchableOpacity onPress={handleSecurityEntry}>
+            <MaterialIcons
+              color={colors.gray["600"]}
+              className="mr-3"
+              name={showText ? "visibility" : "visibility-off"}
+              size={26}
+            />
+          </TouchableOpacity>
+        )}
+      </TouchableOpacity>
     </View>
   );
 };

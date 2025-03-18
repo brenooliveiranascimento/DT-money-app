@@ -4,18 +4,20 @@ import { AppButton } from "@/components/AppButton";
 import { ActivityIndicator, Text, View } from "react-native";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "./schema";
 import { colors } from "@/styles/colors";
+import { schema } from "./schema";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
 
 export interface FormLogin {
+  name: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const {
     control,
     handleSubmit,
@@ -28,13 +30,35 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormLogin> = (formData) => {};
-
   const navigation =
     useNavigation<StackNavigationProp<PublicStackParamsList>>();
 
+  const onSubmit: SubmitHandler<FormLogin> = (formData) => {};
+
   return (
     <>
+      <Controller
+        control={control}
+        name="name"
+        render={({
+          field: { onBlur, onChange, value },
+          fieldState: { error },
+        }) => (
+          <>
+            <AppInput
+              iconName="person"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder="Seu nome"
+              label="Nome"
+              error={Boolean(error)}
+            />
+            <ErrorMessage>{error?.message}</ErrorMessage>
+          </>
+        )}
+      />
+
       <Controller
         control={control}
         name="email"
@@ -80,23 +104,48 @@ export const LoginForm = () => {
         )}
       />
 
-      <View className="flex-1 justify-between mt-10 mb-7 w-full min-h-[250]">
+      <Controller
+        control={control}
+        name="confirmPassword"
+        render={({
+          field: { onBlur, onChange, value },
+          fieldState: { error },
+        }) => (
+          <>
+            <AppInput
+              iconName="lock-outline"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder="******"
+              label="Confirmar senha"
+              secureTextEntry
+              error={Boolean(error)}
+            />
+            <ErrorMessage>{error?.message}</ErrorMessage>
+          </>
+        )}
+      />
+
+      <View className="justify-between mt-10 mb-7 w-full h-[200]">
         <AppButton
           iconName={isSubmitting ? undefined : "arrow-forward"}
           onPress={handleSubmit(onSubmit)}
         >
-          {isSubmitting ? <ActivityIndicator color={colors.white} /> : "Login"}
+          {isSubmitting ? (
+            <ActivityIndicator color={colors.white} />
+          ) : (
+            "Cadastrar"
+          )}
         </AppButton>
         <View>
-          <Text className="mb-3 text-gray-500 text-xl">
-            Ainda não possui uma conta?
-          </Text>
+          <Text className="mb-3 text-gray-500 text-xl">Já tem uma conta?</Text>
           <AppButton
             mode="outline"
             iconName="arrow-forward"
-            onPress={() => navigation.navigate("Register")}
+            onPress={() => navigation.navigate("Login")}
           >
-            Cadastrar
+            Acessar
           </AppButton>
         </View>
       </View>

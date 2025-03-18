@@ -1,75 +1,23 @@
-import { AppInput } from "@/components/input";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 import { Image, View } from "react-native";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
-import { AppButton } from "@/components/AppButton";
-
-export interface FormLogin {
-  email: string;
-  password: string;
-}
+import { LoginForm } from "./Form";
 
 const Login = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormLogin>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<FormLogin> = (formData) => {};
-
   const keyboardIsVisible = useKeyboardVisible();
 
   return (
     <DismissKeyboardView>
-      <View className="bg-dark flex-1 items-center justify-center">
-        <View className="w-[90%]">
+      <View className="flex-1 w-[90%] self-center">
+        <View className="items-center justify-center w-full p-10">
           {!keyboardIsVisible && (
             <Image
               source={require("@/assets/images/Logo.png")}
-              className="mb-28"
+              className="h-[48px] w-[255]"
             />
           )}
-
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { onBlur, onChange, value } }) => (
-              <AppInput
-                iconName="mail-outline"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                placeholder="Mail@exemplo.br"
-                label="E-Mail"
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, value, onBlur } }) => (
-              <AppInput
-                iconName="lock-outline"
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                placeholder="Senha"
-                label="Senha"
-                secureTextEntry={true}
-              />
-            )}
-          />
-
-          <AppButton onPress={handleSubmit(onSubmit)}>a</AppButton>
         </View>
+        <LoginForm />
       </View>
     </DismissKeyboardView>
   );
