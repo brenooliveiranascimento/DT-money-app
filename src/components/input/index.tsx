@@ -52,14 +52,6 @@ export const AppInput: FC<AppInputParams> = ({
 
   const handleSecurityEntry = () => setShowText((prev) => !prev);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      if (!keyboardIsVisible && inputRef.current.isFocused()) {
-        setIsFocused(false);
-      }
-    }
-  }, [keyboardIsVisible]);
-
   return (
     <View className="mb-2 w-full">
       {label && <Text className={`${defaultColor} mb-2 mt-3`}>{label}</Text>}

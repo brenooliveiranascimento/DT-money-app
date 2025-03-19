@@ -9,6 +9,9 @@ import { colors } from "@/styles/colors";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
+import { SnackbarContext } from "@/context/snackbacr.context";
+import { useContext } from "react";
+import { AuthContext } from "@/context/auth.context";
 
 export interface FormLogin {
   email: string;
@@ -16,6 +19,8 @@ export interface FormLogin {
 }
 
 export const LoginForm = () => {
+  const { handleAuthenticate } = useContext(AuthContext);
+
   const {
     control,
     handleSubmit,
@@ -28,7 +33,9 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormLogin> = (formData) => {};
+  const onSubmit: SubmitHandler<FormLogin> = async (formData) => {
+    await handleAuthenticate(formData);
+  };
 
   const navigation =
     useNavigation<StackNavigationProp<PublicStackParamsList>>();
@@ -49,8 +56,9 @@ export const LoginForm = () => {
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder="Mail@exemplo.br"
-              label="E-Mail"
+              label="EMAIL"
               error={Boolean(error)}
+              autoComplete="email"
             />
             <ErrorMessage>{error?.message}</ErrorMessage>
           </>
@@ -70,10 +78,11 @@ export const LoginForm = () => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              placeholder="******"
-              label="Senha"
+              placeholder="Sua senha"
+              label="SENHA"
               secureTextEntry
               error={Boolean(error)}
+              autoComplete="password"
             />
             <ErrorMessage>{error?.message}</ErrorMessage>
           </>

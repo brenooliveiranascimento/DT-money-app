@@ -9,8 +9,10 @@ import { schema } from "./schema";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
+import { useContext } from "react";
+import { AuthContext } from "@/context/auth.context";
 
-export interface FormLogin {
+export interface FormRegister {
   name: string;
   email: string;
   password: string;
@@ -18,11 +20,13 @@ export interface FormLogin {
 }
 
 export const RegisterForm = () => {
+  const { handleRegister } = useContext(AuthContext);
+
   const {
     control,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<FormLogin>({
+  } = useForm<FormRegister>({
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",
@@ -33,7 +37,9 @@ export const RegisterForm = () => {
   const navigation =
     useNavigation<StackNavigationProp<PublicStackParamsList>>();
 
-  const onSubmit: SubmitHandler<FormLogin> = (formData) => {};
+  const onSubmit: SubmitHandler<FormRegister> = async (formData) => {
+    await handleRegister(formData);
+  };
 
   return (
     <>
@@ -51,8 +57,9 @@ export const RegisterForm = () => {
               onChangeText={onChange}
               onBlur={onBlur}
               placeholder="Seu nome"
-              label="Nome"
+              label="Seu nome completo"
               error={Boolean(error)}
+              autoComplete="name"
             />
             <ErrorMessage>{error?.message}</ErrorMessage>
           </>
@@ -72,9 +79,10 @@ export const RegisterForm = () => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              placeholder="Mail@exemplo.br"
+              placeholder="main@exemplo.br"
               label="E-Mail"
               error={Boolean(error)}
+              autoComplete="email"
             />
             <ErrorMessage>{error?.message}</ErrorMessage>
           </>
@@ -94,10 +102,11 @@ export const RegisterForm = () => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              placeholder="******"
-              label="Senha"
+              placeholder="Sua senha"
+              label="SENHA"
               secureTextEntry
               error={Boolean(error)}
+              autoComplete="password"
             />
             <ErrorMessage>{error?.message}</ErrorMessage>
           </>
@@ -117,7 +126,7 @@ export const RegisterForm = () => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              placeholder="******"
+              placeholder="Confirmar sua senha"
               label="Confirmar senha"
               secureTextEntry
               error={Boolean(error)}

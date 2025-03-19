@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import Register from "@/screens/Register";
+import Home from "@/screens/Home";
 
 export type PrivateStackParamsList = {
   Home: undefined;
@@ -10,7 +10,7 @@ export const PrivateRoutes = () => {
 
   return (
     <PrivateStack.Navigator>
-      <PrivateStack.Screen name="Home" component={Register} />
+      <PrivateStack.Screen name="Home" component={Home} />
     </PrivateStack.Navigator>
   );
 };
