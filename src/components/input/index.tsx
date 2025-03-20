@@ -39,15 +39,15 @@ export const AppInput: FC<AppInputParams> = ({
   };
 
   const defaultColor = error
-    ? "text-warning"
+    ? "text-red"
     : isFocused
-    ? "text-secondary"
+    ? "text-green"
     : "text-gray-600";
 
   const iconColor = error
-    ? colors["warning"]
+    ? colors["red"]
     : isFocused
-    ? colors.secondary
+    ? colors.green
     : colors.gray["600"];
 
   const handleSecurityEntry = () => setShowText((prev) => !prev);

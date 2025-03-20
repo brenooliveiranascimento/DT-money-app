@@ -15,5 +15,3 @@ export const AuthHeader = () => {
     </View>
   );
 };
-
-export default AuthHeader;

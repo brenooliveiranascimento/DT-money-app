@@ -1,9 +1,9 @@
 export const colors = {
-  primary: "#015F43",
-  secondary: "#00875F",
-  accent: "#00B37E",
-  danger: "#AA2834",
-  warning: "#F75A68",
+  "green-dark": "#015F43",
+  green: "#00875F",
+  "green-light": "#00B37E",
+  "red-dark": "#AA2834",
+  red: "#F75A68",
   dark: "#121214",
   white: "#FFFFFF",
   gray: {

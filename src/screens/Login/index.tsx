@@ -1,8 +1,7 @@
-import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
 import { LoginForm } from "./Form";
-import AuthHeader from "@/components/Authheader/idnex";
+import { AuthHeader } from "@/components/Authheader";
 
 const Login = () => {
   return (

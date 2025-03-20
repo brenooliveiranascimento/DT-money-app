@@ -53,7 +53,6 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
       setToken(token);
       setUser(user);
     } catch (error) {
-      console.log(error);
       if (error instanceof AppError) {
         notify({
           message: error.message,
