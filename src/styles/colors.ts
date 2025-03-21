@@ -1,9 +1,9 @@
 export const colors = {
-  "green-dark": "#015F43",
+  "accent-brand-dark": "#015F43",
   green: "#00875F",
-  "green-light": "#00B37E",
-  "red-dark": "#AA2834",
-  red: "#F75A68",
+  "accent-brand-light": "#00B37E",
+  "accent-red-dark": "#AA2834",
+  "accent-red": "#F75A68",
   dark: "#121214",
   white: "#FFFFFF",
   gray: {

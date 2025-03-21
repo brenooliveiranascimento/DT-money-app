@@ -45,7 +45,7 @@ export const AppInput: FC<AppInputParams> = ({
     : "text-gray-600";
 
   const iconColor = error
-    ? colors["red"]
+    ? colors["accent-red"]
     : isFocused
     ? colors.green
     : colors.gray["600"];

@@ -6,7 +6,6 @@ import { colors } from "@/styles/colors";
 type AppButtonMode = "fill" | "outline";
 
 interface AppButtonParams extends TouchableOpacityProps {
-  icon?: keyof typeof MaterialIcons.glyphMap;
   onPress: () => void;
   mode?: AppButtonMode;
   iconName?: keyof typeof MaterialIcons.glyphMap;

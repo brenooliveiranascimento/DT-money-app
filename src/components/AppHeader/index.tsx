@@ -8,7 +8,7 @@ export const AppHeader = () => {
         source={require("@/assets/images/Logo.png")}
         className="w-[155px] h-[30px]"
       />
-      <TouchableOpacity className="bg-green-light w-[150px] items-center justify-center p-4 rounded-xl">
+      <TouchableOpacity className="bg-accent-brand-light w-[150px] items-center justify-center p-4 rounded-xl">
         <Text className="text-white font-bold text-base">Nova transação</Text>
       </TouchableOpacity>
     </View>
