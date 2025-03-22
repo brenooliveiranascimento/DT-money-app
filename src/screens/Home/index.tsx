@@ -31,7 +31,7 @@ const Home = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-1000 w-full ">
+    <SafeAreaView className="flex-1 bg-gray-1000 w-full">
       <FlatList
         data={transactions}
         refreshControl={<RefreshControlComponent />}
@@ -46,6 +46,7 @@ const Home = () => {
           loading ? <ActivityIndicator size="large" color="purple" /> : null
         }
       />
+
       <TouchableOpacity onPress={handleLogout}>
         <Text>Sair</Text>
       </TouchableOpacity>
