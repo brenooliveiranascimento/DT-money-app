@@ -1,11 +1,10 @@
 import { TransactionTypes } from "@/shared/enums/transaction-types";
 import { Transaction } from "@/shared/interfaces/transaction-interface";
-import { FC, MutableRefObject, useRef } from "react";
-import { Animated, Text, View } from "react-native";
+import { FC } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
 import { format } from "date-fns";
-import { RectButton } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 import Reanimated, {
   SharedValue,
@@ -16,29 +15,44 @@ interface Props {
 }
 
 export const TransactionCard: FC<Props> = ({ transaction }) => {
-  const isRevenue = transaction.type.id === TransactionTypes.EXPENSE;
+  const isRevenue = transaction.type.id === TransactionTypes.REVENUE;
 
-  const swipeableRow: MutableRefObject<Swipeable | null> = useRef(null);
-
-  const open = () => {
-    swipeableRow?.current?.openRight();
-  };
-
-  const close = (callback: () => void) => {
-    swipeableRow?.current?.close();
-    callback();
-  };
-
-  function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
+  function RightAction(_: SharedValue<number>, drag: SharedValue<number>) {
     const styleAnimation = useAnimatedStyle(() => {
       return {
-        transform: [{ translateX: drag.value + 50 }],
+        transform: [{ translateX: drag.value + 80 }],
       };
     });
 
     return (
       <Reanimated.View style={styleAnimation}>
-        <Text>Text</Text>
+        <TouchableOpacity
+          className="h-[140] bg-accent-red-dark w-[80] rounded-r-[6] items-center justify-center"
+          onPress={() => {}}
+          activeOpacity={0.8}
+        >
+          <MaterialIcons name="delete-outline" color={colors.white} size={30} />
+        </TouchableOpacity>
+      </Reanimated.View>
+    );
+  }
+
+  function LeftAction(_: SharedValue<number>, drag: SharedValue<number>) {
+    const styleAnimation = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateX: drag.value - 80 }],
+      };
+    });
+
+    return (
+      <Reanimated.View style={styleAnimation}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          className="h-[140] bg-accent-blue-dark w-[80] rounded-l-[6] items-center justify-center"
+          onPress={() => {}}
+        >
+          <MaterialIcons color={colors.white} name="edit" size={30} />
+        </TouchableOpacity>
       </Reanimated.View>
     );
   }
@@ -46,16 +60,19 @@ export const TransactionCard: FC<Props> = ({ transaction }) => {
   return (
     <Swipeable
       containerStyle={{
-        height: 140,
         alignItems: "center",
+        width: "85%",
+        alignSelf: "center",
+        marginTop: 16,
       }}
       overshootRight={false}
       friction={1}
       enableTrackpadTwoFingerGesture
       rightThreshold={20}
       renderRightActions={RightAction}
+      renderLeftActions={LeftAction}
     >
-      <View className="w-[85%] h-[140] bg-gray-900 mt-3  rounded-[6] p-6 self-center">
+      <View className="h-[140] bg-gray-900   rounded-[6] p-6 self-center">
         <Text className="text-white text-lg">{transaction.category.name}</Text>
         <Text
           className={`${

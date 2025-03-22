@@ -4,6 +4,8 @@ export const colors = {
   "accent-brand-light": "#00B37E",
   "accent-red-dark": "#AA2834",
   "accent-red": "#F75A68",
+  "accent-blue": "#5A86F7",
+  "accent-blue-dark": "#284DAA",
   dark: "#121214",
   white: "#FFFFFF",
   gray: {

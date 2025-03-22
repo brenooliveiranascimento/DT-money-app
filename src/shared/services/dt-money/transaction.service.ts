@@ -4,7 +4,7 @@ import {
   GetTransactionsResponse,
 } from "@/shared/interfaces/https/get-transactions-response";
 
-export const GetTransactions = async (
+export const getTransactions = async (
   params: GetTransactionsParams
 ): Promise<GetTransactionsResponse> => {
   const { data } = await dtMoneyApi.get<GetTransactionsResponse>(

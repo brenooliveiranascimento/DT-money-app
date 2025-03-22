@@ -3,7 +3,7 @@ import {
   Pagination,
 } from "@/shared/interfaces/https/get-transactions-response";
 import { Transaction } from "@/shared/interfaces/transaction-interface";
-import { GetTransactions } from "@/shared/services/dt-money/transaction.service";
+import { getTransactions } from "@/shared/services/dt-money/transaction.service";
 import {
   createContext,
   FC,
@@ -15,6 +15,7 @@ import {
 import { useAuthContext } from "./auth.context";
 import { useSnackbarContext } from "./snackbacr.context";
 import { AppError } from "@/shared/helpers/AppError";
+import { TotalTransactions } from "@/shared/interfaces/total-transactions";
 
 export interface SearchFilterParams {
   key: keyof Filters;
@@ -36,6 +37,7 @@ type TransactionTextType = {
   searchFilter: string;
   handleFilter: (params: SearchFilterParams) => void;
   refreshLoading: boolean;
+  totalTransactions: TotalTransactions;
 };
 
 export const TransactionContext = createContext({} as TransactionTextType);
@@ -52,6 +54,10 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   const [totalPages, setTotalPages] = useState(15);
   const [searchText, setSearchText] = useState<string>("");
   const [filters, setFilters] = useState<Filters>({});
+  const [totalTransactions, setTotalTransactions] = useState<TotalTransactions>(
+    { expense: 0, revenue: 0, total: 0 }
+  );
+
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     perPage: 15,
@@ -72,7 +78,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
       }
 
       try {
-        const response = await GetTransactions({
+        const response = await getTransactions({
           page: refresh ? 1 : page,
           perPage: refresh ? page * pagination.perPage : pagination.perPage,
           filters,
@@ -85,7 +91,8 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         } else {
           setTransactions((prev) => [...prev, ...response.data]);
         }
-
+        console.log(response.totalTransactions);
+        setTotalTransactions(response.totalTransactions);
         setPagination({
           ...pagination,
           page,
@@ -135,6 +142,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         setSearchFilter: setSearchText,
         handleFilter,
         refreshLoading,
+        totalTransactions,
       }}
     >
       {children}
