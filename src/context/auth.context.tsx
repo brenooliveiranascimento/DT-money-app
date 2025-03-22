@@ -8,15 +8,15 @@ import {
   useState,
 } from "react";
 import * as authApi from "@/shared/services/dt-money/auth.service";
-import { SnackbarContext } from "./snackbacr.context";
+import { useSnackbarContext } from "./snackbacr.context";
 import { AppError } from "@/shared/helpers/AppError";
-import { IUser } from "@/shared/interfaces/user-interface";
+import { User } from "@/shared/interfaces/user-interface";
 import { FormRegister } from "@/screens/Register/Form";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { IAuthenticateResponse } from "@/shared/interfaces/https/autehnticate-response";
 
 type AuthContextType = {
-  user: IUser | null;
+  user: User | null;
   token: string | null;
   refreshToken: string | null;
   handleAuthenticate: (params: FormLogin) => Promise<void>;
@@ -30,12 +30,12 @@ export const AuthContext = createContext<AuthContextType>(
 );
 
 export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [refreshToken, setRefreshToken] = useState(null);
 
-  const { notify } = useContext(SnackbarContext);
+  const { notify } = useSnackbarContext();
 
   const handleLogout = async () => {
     setToken(null);
@@ -68,7 +68,6 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
       setToken(response.token);
       setUser(response.user);
     } catch (error) {
-      console.log(error);
       if (error instanceof AppError) {
         notify({
           message: error.message,
@@ -111,4 +110,9 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+  return context;
 };

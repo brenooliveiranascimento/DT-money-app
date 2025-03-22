@@ -9,8 +9,7 @@ import { schema } from "./schema";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
-import { useContext } from "react";
-import { AuthContext } from "@/context/auth.context";
+import { useAuthContext } from "@/context/auth.context";
 
 export interface FormRegister {
   name: string;
@@ -20,7 +19,7 @@ export interface FormRegister {
 }
 
 export const RegisterForm = () => {
-  const { handleRegister } = useContext(AuthContext);
+  const { handleRegister } = useAuthContext();
 
   const {
     control,

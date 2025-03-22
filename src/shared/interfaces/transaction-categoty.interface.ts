@@ -1,4 +1,4 @@
-export interface ITransactionCategory {
+export interface TransactionCategory {
   id: number;
   name: string;
 }

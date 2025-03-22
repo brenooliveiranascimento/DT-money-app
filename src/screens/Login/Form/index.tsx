@@ -9,9 +9,7 @@ import { colors } from "@/styles/colors";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
-import { SnackbarContext } from "@/context/snackbacr.context";
-import { useContext } from "react";
-import { AuthContext } from "@/context/auth.context";
+import { useAuthContext } from "@/context/auth.context";
 
 export interface FormLogin {
   email: string;
@@ -19,7 +17,7 @@ export interface FormLogin {
 }
 
 export const LoginForm = () => {
-  const { handleAuthenticate } = useContext(AuthContext);
+  const { handleAuthenticate } = useAuthContext();
 
   const {
     control,

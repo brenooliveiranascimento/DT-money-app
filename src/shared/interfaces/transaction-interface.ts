@@ -1,8 +1,7 @@
-import { ITransactionCategory } from "./transaction-categoty.interface";
-import { ITransactionType } from "./transaction-type-interface";
-import { IUser } from "./user-interface";
+import { TransactionCategory } from "./transaction-categoty.interface";
+import { TransactionType } from "./transaction-type-interface";
 
-export interface ITransaction {
+export interface Transaction {
   id: number;
   typeId: number;
   categoryId: number;
@@ -11,7 +10,6 @@ export interface ITransaction {
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;
-  type: ITransactionType;
-  category: ITransactionCategory;
-  user?: IUser;
+  type: TransactionType;
+  category: TransactionCategory;
 }

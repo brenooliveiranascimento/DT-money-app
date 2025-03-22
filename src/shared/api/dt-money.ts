@@ -1,9 +1,12 @@
 import axios from "axios";
 import { AppError } from "../helpers/AppError";
+import { addTokenToRequest } from "../helpers/axios.helper";
 
 export const dtMoneyApi = axios.create({
   baseURL: process.env.EXPO_PUBLIC_DT_MONEY_API_URL,
 });
+
+addTokenToRequest(dtMoneyApi);
 
 dtMoneyApi.interceptors.response.use(
   (config) => config,

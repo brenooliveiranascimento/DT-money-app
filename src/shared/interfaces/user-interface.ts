@@ -1,9 +1,9 @@
-import { ITransaction } from "./transaction-interface";
+import { Transaction } from "./transaction-interface";
 
-export interface IUser {
+export interface User {
   id: number;
   name: string;
   email: string;
   createdAt: Date;
-  transactions: ITransaction[];
+  transactions: Transaction[];
 }
