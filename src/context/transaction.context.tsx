@@ -85,13 +85,12 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
           userId: user.id,
           searchText,
         });
-
         if (page === 1 || refresh) {
           setTransactions(response.data);
         } else {
           setTransactions((prev) => [...prev, ...response.data]);
         }
-        console.log(response.totalTransactions);
+
         setTotalTransactions(response.totalTransactions);
         setPagination({
           ...pagination,

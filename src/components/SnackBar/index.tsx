@@ -8,7 +8,9 @@ export const SnackBar = () => {
     return <></>;
   }
 
-  const bgColor = `${type === "SUCCESS" ? "bg-accent-brand-dark" : "bg-red"}`;
+  const bgColor = `${
+    type === "SUCCESS" ? "bg-accent-brand-dark" : "bg-accent-red-dark"
+  }`;
 
   return (
     <View

@@ -1,5 +1,4 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { AppButton } from "../AppButton";
 
 export const AppHeader = () => {
   return (
@@ -8,8 +7,8 @@ export const AppHeader = () => {
         source={require("@/assets/images/Logo.png")}
         className="w-[155px] h-[30px]"
       />
-      <TouchableOpacity className="bg-green w-[150px] items-center justify-center p-4 rounded-xl">
-        <Text className="text-white font-bold text-base">Nova transação</Text>
+      <TouchableOpacity className="bg-green w-[130] items-center justify-center p-4 rounded-xl">
+        <Text className="text-white font-bold text-sm">Nova transação</Text>
       </TouchableOpacity>
     </View>
   );

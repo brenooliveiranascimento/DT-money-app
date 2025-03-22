@@ -16,8 +16,7 @@ export const addTokenToRequest = (axiosInstance: AxiosInstance) => {
 
         config.headers.Authorization = `Bearer ${token}`;
       }
-
-      return config;
     }
+    return config;
   });
 };

@@ -32,7 +32,7 @@ export const AuthContext = createContext<AuthContextType>(
 export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [refreshToken, setRefreshToken] = useState(null);
 
   const { notify } = useSnackbarContext();

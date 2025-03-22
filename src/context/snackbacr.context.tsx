@@ -1,3 +1,4 @@
+import { SnackBar } from "@/components/SnackBar";
 import {
   createContext,
   FC,
@@ -48,6 +49,7 @@ export const SnackbarContextProvider: FC<PropsWithChildren> = ({
       }}
     >
       {children}
+      <SnackBar />
     </SnackbarContext.Provider>
   );
 };
