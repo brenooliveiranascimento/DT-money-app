@@ -1,4 +1,3 @@
-import { AppHeader } from "@/components/AppHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Evaluetions } from "./Evaluetions";
 import {
@@ -6,17 +5,14 @@ import {
   FlatList,
   RefreshControl,
   Text,
-  TouchableOpacity,
-  View,
 } from "react-native";
-import { useContext, useEffect } from "react";
-import { AuthContext } from "@/context/auth.context";
+import { useEffect } from "react";
 import { useTransactionContext } from "@/context/transaction.context";
 import { TransactionCard } from "./TransactionCard";
 import { colors } from "@/styles/colors";
 
 const Home = () => {
-  const { handleLogout } = useContext(AuthContext);
+  
   const {
     fetchTransactions,
     transactions,
@@ -25,9 +21,8 @@ const Home = () => {
     refreshTransactions,
     refreshLoading,
   } = useTransactionContext();
-
   useEffect(() => {
-    fetchTransactions({ page: 1, refresh: false });
+    fetchTransactions({ page: 1 });
   }, []);
 
   return (
@@ -45,20 +40,25 @@ const Home = () => {
         }
         ListHeaderComponent={Evaluetions}
         keyExtractor={(transaction) => `transaction-${transaction.id}`}
-        // ListEmptyComponent={<Text>Nenhuma transação encontrada</Text>}
-        renderItem={({ item: transaction }) => {
-          return <TransactionCard transaction={transaction} />;
-        }}
+        ListEmptyComponent={
+          <Text className="text-center text-gray-600 text-lg mt-4">
+            Nenhuma transação encontrada
+          </Text>
+        }
+        renderItem={({ item: transaction }) => (
+          <TransactionCard transaction={transaction} />
+        )}
         onEndReached={loadMoreTransactions}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
-          loading ? <ActivityIndicator size="large" color="purple" /> : null
+          loading ? (
+            <ActivityIndicator
+              size="large"
+              color={colors["accent-brand-light"]}
+            />
+          ) : null
         }
       />
-
-      {/* <TouchableOpacity onPress={handleLogout}>
-        <Text>Sair</Text>
-      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

@@ -5,20 +5,28 @@ import { colors } from "@/styles/colors";
 import { SnackbarContextProvider } from "@/context/snackbacr.context";
 import { AuthContextProvider } from "@/context/auth.context";
 import { TransactionContextProvider } from "@/context/transaction.context";
+import { BottomSheetProvider } from "@/context/bottomsheet.context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SnackBar } from "@/components/SnackBar";
 
 export default function App() {
   return (
-    <SnackbarContextProvider>
-      <AuthContextProvider>
-        <TransactionContextProvider>
-          <NavigatorRoutes />
-          <StatusBar
-            style="light"
-            translucent={false}
-            backgroundColor={colors.dark}
-          />
-        </TransactionContextProvider>
-      </AuthContextProvider>
-    </SnackbarContextProvider>
+    <GestureHandlerRootView className="flex-1">
+      <BottomSheetProvider>
+        <SnackbarContextProvider>
+          <AuthContextProvider>
+            <TransactionContextProvider>
+              <NavigatorRoutes />
+              <StatusBar
+                style="light"
+                translucent={false}
+                backgroundColor={colors.dark}
+              />
+              <SnackBar />
+            </TransactionContextProvider>
+          </AuthContextProvider>
+        </SnackbarContextProvider>
+      </BottomSheetProvider>
+    </GestureHandlerRootView>
   );
 }

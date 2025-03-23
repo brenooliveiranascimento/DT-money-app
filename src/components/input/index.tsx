@@ -1,4 +1,4 @@
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import { FC, ReactNode, useRef, useState } from "react";
 import {
   Text,
   TextInput,
@@ -8,21 +8,24 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
-import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
 
 interface AppInputParams extends TextInputProps {
   onChangeText: (text: string) => void;
-  iconName?: keyof typeof MaterialIcons.glyphMap;
+  leftIconName?: keyof typeof MaterialIcons.glyphMap;
+  rightIconName?: keyof typeof MaterialIcons.glyphMap;
   renderRight?: () => ReactNode;
   label?: string;
   error?: boolean;
+  bg?: string;
 }
 
 export const AppInput: FC<AppInputParams> = ({
-  iconName,
+  leftIconName,
+  rightIconName,
   label,
   secureTextEntry,
   error,
+  bg,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -56,13 +59,15 @@ export const AppInput: FC<AppInputParams> = ({
       <TouchableOpacity
         onPress={() => inputRef.current?.focus()}
         activeOpacity={1}
-        className="flex-row items-center border-b border-gray-600 px-3 py-2 h-16"
+        className={`flex-row items-center border-b border-gray-600 px-3 py-2 h-16 ${
+          bg ?? ""
+        }`}
       >
-        {iconName && (
+        {leftIconName && (
           <MaterialIcons
             color={iconColor}
             className="mr-3"
-            name={iconName}
+            name={leftIconName}
             size={26}
           />
         )}
@@ -75,6 +80,16 @@ export const AppInput: FC<AppInputParams> = ({
           secureTextEntry={showText}
           {...rest}
         />
+
+        {rightIconName && (
+          <MaterialIcons
+            color={colors.gray["600"]}
+            className="mr-3"
+            name={rightIconName}
+            size={26}
+          />
+        )}
+
         {secureTextEntry && (
           <TouchableOpacity onPress={handleSecurityEntry}>
             <MaterialIcons

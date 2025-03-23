@@ -1,15 +1,32 @@
+import { useBottomSheetContext } from "@/context/bottomsheet.context";
+import { Transaction } from "@/shared/interfaces/transaction-interface";
 import { colors } from "@/styles/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native";
+import { FC } from "react";
+import { View } from "react-native";
+import { Pressable } from "react-native-gesture-handler";
+import { EditTransactionBottomsheet } from "../EditTransactionBottomsheet";
 
-export const LeftAction = () => {
+interface Props {
+  transaction: Transaction;
+}
+
+export const LeftAction: FC<Props> = ({ transaction }) => {
+  const { closeBottomSheet, openBottomSheet } = useBottomSheetContext();
+
   return (
-    <TouchableOpacity
-      className="h-[140] bg-accent-blue-dark w-[80] rounded-l-[6] items-center justify-center"
-      onPress={() => {}}
-      activeOpacity={0.8}
-    >
-      <MaterialIcons color={colors.white} name="edit" size={30} />
-    </TouchableOpacity>
+    <>
+      <Pressable
+        onPress={() =>
+          openBottomSheet(
+            <EditTransactionBottomsheet transaction={transaction} />
+          )
+        }
+      >
+        <View className="h-[140] bg-accent-blue-dark w-[80] rounded-l-[6] items-center justify-center z-99">
+          <MaterialIcons color={colors.white} name="edit" size={30} />
+        </View>
+      </Pressable>
+    </>
   );
 };

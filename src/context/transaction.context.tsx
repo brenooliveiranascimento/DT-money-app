@@ -24,7 +24,6 @@ export interface SearchFilterParams {
 
 export interface FetchTransactionsParams {
   page: number;
-  refresh?: boolean;
 }
 
 type TransactionTextType = {
@@ -32,13 +31,13 @@ type TransactionTextType = {
   loading: boolean;
   loadMoreTransactions: () => void;
   fetchTransactions: (params: FetchTransactionsParams) => Promise<void>;
-  refreshTransactions?: () => void;
+  refreshTransactions: () => void;
   setSearchFilter: (text: string) => void;
   searchFilter: string;
   handleFilter: (params: SearchFilterParams) => void;
   refreshLoading: boolean;
   totalTransactions: TotalTransactions;
-  handleDelete: (id: number) => Promise<void>;
+  handleDelete: (transactionId: number) => Promise<void>;
 };
 
 export const TransactionContext = createContext({} as TransactionTextType);
@@ -68,25 +67,62 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const refreshTransactions = useCallback(async () => {
+    if (!user) return;
+    const { page, perPage } = pagination;
+
+    setRefreshLoading(true);
+
+    try {
+      const response = await dtMoneyService.getTransactions({
+        page: 1,
+        perPage: page * perPage,
+        filters,
+        userId: user.id,
+        searchText,
+      });
+
+      setTransactions(response.data);
+
+      setTotalTransactions(response.totalTransactions);
+      setPagination({
+        ...pagination,
+        page,
+      });
+      setTotalPages(response.totalPages);
+    } catch (error) {
+      if (error instanceof AppError) {
+        notify({
+          message: error.message,
+          messageType: "ERROR",
+        });
+      } else {
+        notify({
+          message: "Erro ao buscar transações",
+          messageType: "ERROR",
+        });
+      }
+    } finally {
+      setRefreshLoading(false);
+    }
+  }, [pagination, notify, user, filters, searchText]);
+
   const fetchTransactions = useCallback(
-    async ({ page = 1, refresh = false }: FetchTransactionsParams) => {
+    async ({ page = 1 }) => {
       if (!user) return;
 
-      if (refresh) {
-        setRefreshLoading(true);
-      } else {
-        setLoading(true);
-      }
+      setLoading(true);
 
       try {
         const response = await dtMoneyService.getTransactions({
-          page: refresh ? 1 : page,
-          perPage: refresh ? page * pagination.perPage : pagination.perPage,
+          page: page,
+          perPage: pagination.perPage,
           filters,
           userId: user.id,
           searchText,
         });
-        if (page === 1 || refresh) {
+
+        if (page === 1) {
           setTransactions(response.data);
         } else {
           setTransactions((prev) => [...prev, ...response.data]);
@@ -111,11 +147,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
           });
         }
       } finally {
-        if (refresh) {
-          setRefreshLoading(false);
-        } else {
-          setLoading(false);
-        }
+        setLoading(false);
       }
     },
     [pagination, notify, user, filters, searchText]
@@ -126,14 +158,9 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     fetchTransactions({ page: pagination.page + 1 });
   }, [loading, pagination, fetchTransactions, totalPages]);
 
-  const refreshTransactions = useCallback(() => {
-    fetchTransactions({ page: pagination.page, refresh: true });
-  }, [fetchTransactions, pagination.page]);
-
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (transactionId: number) => {
     try {
-      await dtMoneyService.deleteTransaction(id);
-
+      await dtMoneyService.deleteTransaction(transactionId);
       await refreshTransactions();
     } catch (error) {
       if (error instanceof AppError) {

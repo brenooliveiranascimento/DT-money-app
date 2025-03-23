@@ -51,7 +51,7 @@ export const RegisterForm = () => {
         }) => (
           <>
             <AppInput
-              iconName="person"
+              leftIconName="person"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -74,7 +74,7 @@ export const RegisterForm = () => {
         }) => (
           <>
             <AppInput
-              iconName="mail-outline"
+              leftIconName="mail-outline"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -97,7 +97,7 @@ export const RegisterForm = () => {
         }) => (
           <>
             <AppInput
-              iconName="lock-outline"
+              leftIconName="lock-outline"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -121,7 +121,7 @@ export const RegisterForm = () => {
         }) => (
           <>
             <AppInput
-              iconName="lock-outline"
+              leftIconName="lock-outline"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}

@@ -49,7 +49,6 @@ export const SnackbarContextProvider: FC<PropsWithChildren> = ({
       }}
     >
       {children}
-      <SnackBar />
     </SnackbarContext.Provider>
   );
 };

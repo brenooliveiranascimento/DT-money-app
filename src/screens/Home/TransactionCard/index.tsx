@@ -21,9 +21,9 @@ export const TransactionCard: FC<Props> = ({ transaction }) => {
       containerStyle={{
         alignItems: "center",
         alignSelf: "center",
-        marginTop: 16,
         overflow: "visible",
         width: "90%",
+        marginBottom: 16,
       }}
       overshootRight={false}
       overshootLeft={false}
@@ -31,7 +31,7 @@ export const TransactionCard: FC<Props> = ({ transaction }) => {
       enableTrackpadTwoFingerGesture
       rightThreshold={20}
       renderRightActions={() => <RightAction transaction={transaction} />}
-      renderLeftActions={LeftAction}
+      renderLeftActions={() => <LeftAction transaction={transaction} />}
     >
       <View className="h-[140] bg-gray-900 rounded-[6] p-6">
         <Text className="text-white text-base">

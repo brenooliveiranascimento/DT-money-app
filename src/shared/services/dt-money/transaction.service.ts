@@ -17,6 +17,5 @@ export const getTransactions = async (
 };
 
 export const deleteTransaction = async (id: number) => {
-  alert("AAA");
   await dtMoneyApi.delete(`/transaction/${id}`);
 };
