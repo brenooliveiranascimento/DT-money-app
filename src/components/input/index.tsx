@@ -28,8 +28,6 @@ export const AppInput: FC<AppInputParams> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [showText, setShowText] = useState(secureTextEntry);
 
-  const keyboardIsVisible = useKeyboardVisible();
-
   const inputRef = useRef<TextInput>(null);
 
   const checkFocus = () => {
