@@ -3,7 +3,7 @@ import {
   Pagination,
 } from "@/shared/interfaces/https/get-transactions-response";
 import { Transaction } from "@/shared/interfaces/transaction-interface";
-import { getTransactions } from "@/shared/services/dt-money/transaction.service";
+import * as dtMoneyService from "@/shared/services/dt-money/transaction.service";
 import {
   createContext,
   FC,
@@ -31,13 +31,14 @@ type TransactionTextType = {
   transactions: Transaction[];
   loading: boolean;
   loadMoreTransactions: () => void;
-  fetchTransactions: (params: FetchTransactionsParams) => void;
+  fetchTransactions: (params: FetchTransactionsParams) => Promise<void>;
   refreshTransactions?: () => void;
   setSearchFilter: (text: string) => void;
   searchFilter: string;
   handleFilter: (params: SearchFilterParams) => void;
   refreshLoading: boolean;
   totalTransactions: TotalTransactions;
+  handleDelete: (id: number) => Promise<void>;
 };
 
 export const TransactionContext = createContext({} as TransactionTextType);
@@ -78,7 +79,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
       }
 
       try {
-        const response = await getTransactions({
+        const response = await dtMoneyService.getTransactions({
           page: refresh ? 1 : page,
           perPage: refresh ? page * pagination.perPage : pagination.perPage,
           filters,
@@ -129,6 +130,26 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     fetchTransactions({ page: pagination.page, refresh: true });
   }, [fetchTransactions, pagination.page]);
 
+  const handleDelete = async (id: number) => {
+    try {
+      await dtMoneyService.deleteTransaction(id);
+
+      await refreshTransactions();
+    } catch (error) {
+      if (error instanceof AppError) {
+        notify({
+          message: error.message,
+          messageType: "ERROR",
+        });
+      } else {
+        notify({
+          message: "Erro ao deletar transações",
+          messageType: "ERROR",
+        });
+      }
+    }
+  };
+
   return (
     <TransactionContext.Provider
       value={{
@@ -142,6 +163,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         handleFilter,
         refreshLoading,
         totalTransactions,
+        handleDelete,
       }}
     >
       {children}

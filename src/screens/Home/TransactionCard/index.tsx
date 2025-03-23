@@ -30,7 +30,7 @@ export const TransactionCard: FC<Props> = ({ transaction }) => {
       friction={1}
       enableTrackpadTwoFingerGesture
       rightThreshold={20}
-      renderRightActions={RightAction}
+      renderRightActions={() => <RightAction transaction={transaction} />}
       renderLeftActions={LeftAction}
     >
       <View className="h-[140] bg-gray-900 rounded-[6] p-6">

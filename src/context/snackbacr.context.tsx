@@ -56,6 +56,5 @@ export const SnackbarContextProvider: FC<PropsWithChildren> = ({
 
 export const useSnackbarContext = () => {
   const context = useContext(SnackbarContext);
-  console.log({ context });
   return context;
 };

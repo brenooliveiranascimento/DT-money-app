@@ -1,8 +1,6 @@
 import {
-  Alert,
+  ActivityIndicator,
   Modal,
-  Pressable,
-  StyleSheet,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -10,12 +8,28 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
-import { useState } from "react";
-import { AppButton } from "@/components/AppButton";
+import { FC, useState } from "react";
+import { useTransactionContext } from "@/context/transaction.context";
+import { Transaction } from "@/shared/interfaces/transaction-interface";
 
-export const RightAction = () => {
-  const [isVisible, setIsVisible] = useState(false);
+interface Props {
+  transaction: Transaction;
+}
+
+export const RightAction: FC<Props> = ({ transaction }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { handleDelete } = useTransactionContext();
+
+  const deleteTransaction = async () => {
+    setLoading(true);
+    try {
+      await handleDelete(transaction.id);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const showModal = () => {
     setModalVisible(true);
@@ -66,20 +80,30 @@ export const RightAction = () => {
                       />
                     </TouchableOpacity>
                   </View>
-                  <View className="p-5 flex-1 border-b border-gray-300">
+
+                  <View className="p-3 flex-1 border-b border-gray-300 items-center justify-center">
                     <Text className="text-gray-500 text-lg leading-8">
                       Tem certeza de que deseja apagar esta transação? Esta ação
                       não pode ser desfeita.
                     </Text>
                   </View>
 
-                  <View className="flex-row">
-                    <AppButton onPress={() => {}}>TESTE</AppButton>
-                    <TouchableOpacity>
-                      <Text>Cancelar</Text>
+                  <View className="flex-row justify-end gap-4 p-6 pb-0 w-full items-end pr-0">
+                    <TouchableOpacity
+                      onPress={hideModal}
+                      className="w-[100] bg-none border-2 border-green items-center justify-center p-3 rounded-[6]"
+                    >
+                      <Text className="text-green">Cancelar</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Text>Apagar</Text>
+                    <TouchableOpacity
+                      onPress={deleteTransaction}
+                      className="w-[100] bg-accent-red-dark items-center justify-center p-3 rounded-[6]"
+                    >
+                      {loading ? (
+                        <ActivityIndicator />
+                      ) : (
+                        <Text className="text-white">Apagar</Text>
+                      )}
                     </TouchableOpacity>
                   </View>
                 </View>

@@ -31,6 +31,7 @@ export const AppButton: FC<PropsWithChildren<AppButtonParams>> = ({
   ];
 
   if (iconName) {
+    if(mode === "fill")
     buttonClassNames.push("justify-between");
   } else {
     buttonClassNames.push("justify-center");
