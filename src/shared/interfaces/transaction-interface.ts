@@ -5,6 +5,7 @@ export interface Transaction {
   id: number;
   typeId: number;
   categoryId: number;
+  description: string | null;
   userId: number;
   value: number;
   createdAt: Date;

@@ -15,6 +15,7 @@ import {
 import { useAuthContext } from "./auth.context";
 import { useSnackbarContext } from "./snackbacr.context";
 import { TotalTransactions } from "@/shared/interfaces/total-transactions";
+import { CreateTransactionInterface } from "@/shared/interfaces/https/create-transaction-params";
 
 export interface SearchFilterParams {
   key: keyof Filters;
@@ -37,6 +38,7 @@ type TransactionTextType = {
   refreshLoading: boolean;
   totalTransactions: TotalTransactions;
   handleDelete: (transactionId: number) => Promise<void>;
+  createTransaction: (transcation: CreateTransactionInterface) => Promise<void>;
 };
 
 export const TransactionContext = createContext({} as TransactionTextType);
@@ -64,6 +66,11 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
 
   const handleFilter = ({ key, value }: SearchFilterParams) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const createTransaction = async (transaction: CreateTransactionInterface) => {
+    await dtMoneyService.createTransaction(transaction);
+    await refreshTransactions();
   };
 
   const refreshTransactions = useCallback(async () => {
@@ -147,6 +154,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         refreshLoading,
         totalTransactions,
         handleDelete,
+        createTransaction,
       }}
     >
       {children}

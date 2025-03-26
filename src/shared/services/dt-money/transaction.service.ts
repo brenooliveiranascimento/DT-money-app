@@ -1,4 +1,5 @@
 import { dtMoneyApi } from "@/shared/api/dt-money";
+import { CreateTransactionInterface } from "@/shared/interfaces/https/create-transaction-params";
 import {
   GetTransactionsParams,
   GetTransactionsResponse,
@@ -18,4 +19,10 @@ export const getTransactions = async (
 
 export const deleteTransaction = async (id: number) => {
   await dtMoneyApi.delete(`/transaction/${id}`);
+};
+
+export const createTransaction = async (
+  transaction: CreateTransactionInterface
+) => {
+  await dtMoneyApi.post("/transaction", transaction);
 };

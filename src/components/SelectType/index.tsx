@@ -4,7 +4,7 @@ import { TransactionTypes } from "@/shared/enums/transaction-types";
 import { colors } from "@/styles/colors";
 
 interface TransactionTypeSelectorProps {
-  typeId: number | null;
+  typeId?: number;
   setTransactionType: (type: number) => void;
 }
 

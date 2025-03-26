@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, FlatList, Modal } from "react-native";
 import Checkbox from "expo-checkbox";
-import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
 import { colors } from "@/styles/colors";
 
 interface Item {
@@ -12,8 +11,8 @@ interface Item {
 interface SelectModalProps {
   visible: boolean;
   onClose: () => void;
-  selectedItem: TransactionCategory | null;
-  onSelect: (itemId: TransactionCategory) => void;
+  selectedItem?: number;
+  onSelect: (itemId: number) => void;
 }
 
 const items: Item[] = [
@@ -28,15 +27,13 @@ export default function SelectModal({
   selectedItem,
   onSelect,
 }: SelectModalProps) {
-  const [selected, setSelected] = useState<TransactionCategory | null>(
-    selectedItem || null
-  );
+  const [selected, setSelected] = useState<number | null>(selectedItem || null);
 
   useEffect(() => {
     setSelected(selectedItem || null);
   }, [selectedItem]);
 
-  const handleSelect = (itemId: TransactionCategory) => {
+  const handleSelect = (itemId: number) => {
     setSelected(itemId);
     onSelect(itemId);
     onClose();
@@ -52,14 +49,14 @@ export default function SelectModal({
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => handleSelect(item)}
+                onPress={() => handleSelect(item.id)}
                 className="flex-row items-center bg-gray-800 p-2 rounded-lg mb-2"
               >
                 <Checkbox
-                  value={selected?.id === item.id}
-                  onValueChange={() => handleSelect(item)}
+                  value={selected === item.id}
+                  onValueChange={() => handleSelect(item.id)}
                   color={
-                    selected?.id === item.id
+                    selected === item.id
                       ? colors["accent-brand-light"]
                       : undefined
                   }

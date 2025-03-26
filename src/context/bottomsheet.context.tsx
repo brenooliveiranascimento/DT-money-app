@@ -5,7 +5,10 @@ import {
   useCallback,
   useState,
 } from "react";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import { colors } from "@/styles/colors";
 
@@ -69,9 +72,9 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         }}
         style={{ zIndex: 2 }}
       >
-        <BottomSheetView className="flex-1 items-center bg-gray-1000 min-h-[400]">
+        <BottomSheetScrollView className="flex-1 bg-gray-1000 min-h-[400]">
           {content}
-        </BottomSheetView>
+        </BottomSheetScrollView>
       </BottomSheet>
     </BottomSheetContext.Provider>
   );

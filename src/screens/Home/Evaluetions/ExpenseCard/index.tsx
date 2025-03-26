@@ -27,7 +27,7 @@ export const ExpenseCard = () => {
         />
       </View>
       <Text className="text-2xl text-gray-400 font-bold">
-        R$ ${totalTransactions.expense.toFixed(2).replace(".", ",")}
+        R$ {totalTransactions.expense.toFixed(2).replace(".", ",")}
       </Text>
       {lastTransaction && (
         <Text className="text-gray-700 text-sm mt-3">

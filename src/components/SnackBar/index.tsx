@@ -14,7 +14,7 @@ export const SnackBar = () => {
 
   return (
     <View
-      className={`absolute bottom-10 self-center w-[90%] ${bgColor} h-[50px] rounded-xl p-2 justify-center`}
+      className={`absolute bottom-10 self-center w-[90%] ${bgColor} h-[50px] rounded-xl p-2 justify-center z-99`}
     >
       <Text className="text-white text-base font-bold">{message}</Text>
     </View>

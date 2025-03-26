@@ -12,10 +12,10 @@ import { SnackBar } from "@/components/SnackBar";
 export default function App() {
   return (
     <GestureHandlerRootView className="flex-1">
-      <BottomSheetProvider>
-        <SnackbarContextProvider>
-          <AuthContextProvider>
-            <TransactionContextProvider>
+      <SnackbarContextProvider>
+        <AuthContextProvider>
+          <TransactionContextProvider>
+            <BottomSheetProvider>
               <NavigatorRoutes />
               <StatusBar
                 style="light"
@@ -23,10 +23,10 @@ export default function App() {
                 backgroundColor={colors.dark}
               />
               <SnackBar />
-            </TransactionContextProvider>
-          </AuthContextProvider>
-        </SnackbarContextProvider>
-      </BottomSheetProvider>
+            </BottomSheetProvider>
+          </TransactionContextProvider>
+        </AuthContextProvider>
+      </SnackbarContextProvider>
     </GestureHandlerRootView>
   );
 }
