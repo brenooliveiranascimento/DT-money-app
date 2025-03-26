@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
 import { useAuthContext } from "@/context/auth.context";
+import { useErrorHandler } from "@/shared/hooks/errorHandler";
 
 export interface FormLogin {
   email: string;
@@ -18,7 +19,7 @@ export interface FormLogin {
 
 export const LoginForm = () => {
   const { handleAuthenticate } = useAuthContext();
-
+  const { handleError } = useErrorHandler();
   const {
     control,
     handleSubmit,
@@ -31,12 +32,16 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormLogin> = async (formData) => {
-    await handleAuthenticate(formData);
-  };
-
   const navigation =
     useNavigation<StackNavigationProp<PublicStackParamsList>>();
+
+  const onSubmit: SubmitHandler<FormLogin> = async (formData) => {
+    try {
+      await handleAuthenticate(formData);
+    } catch (error) {
+      handleError(error, "Falha ao realizar o login");
+    }
+  };
 
   return (
     <>
@@ -49,7 +54,7 @@ export const LoginForm = () => {
         }) => (
           <>
             <AppInput
-              iconName="mail-outline"
+              leftIconName="mail-outline"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -72,7 +77,7 @@ export const LoginForm = () => {
         }) => (
           <>
             <AppInput
-              iconName="lock-outline"
+              leftIconName="lock-outline"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}

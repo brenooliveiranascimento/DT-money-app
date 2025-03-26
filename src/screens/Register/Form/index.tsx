@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PublicStackParamsList } from "@/routes/PublicRoutes";
 import { useAuthContext } from "@/context/auth.context";
+import { useErrorHandler } from "@/shared/hooks/errorHandler";
 
 export interface FormRegister {
   name: string;
@@ -20,6 +21,7 @@ export interface FormRegister {
 
 export const RegisterForm = () => {
   const { handleRegister } = useAuthContext();
+  const { handleError } = useErrorHandler();
 
   const {
     control,
@@ -37,7 +39,11 @@ export const RegisterForm = () => {
     useNavigation<StackNavigationProp<PublicStackParamsList>>();
 
   const onSubmit: SubmitHandler<FormRegister> = async (formData) => {
-    await handleRegister(formData);
+    try {
+      await handleRegister(formData);
+    } catch (error) {
+      handleError(error, "Falha ao realizar o registro");
+    }
   };
 
   return (

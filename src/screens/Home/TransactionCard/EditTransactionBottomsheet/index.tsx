@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Transaction } from "@/shared/interfaces/transaction-interface";
 import { FC, useState } from "react";
@@ -20,19 +20,16 @@ export const EditTransactionBottomsheet: FC<Props> = ({ transaction }) => {
         <Text className="text-white text-xl font-bold">Editar transação</Text>
         <MaterialIcons name="close" size={20} color={colors.gray["700"]} />
       </View>
-      <View className="flex-1">
-        <AppInput
-          onChangeText={setEditedTransaction}
-          value={editedTransaction}
-          className="font-base text-white mt-[10]"
-          bg="bg-dark"
-          rightIconName="filter-list"
+      <View className="flex-1 mt-8">
+        <TextInput
+          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
+          placeholder="Descrição"
+          placeholderTextColor={colors.gray["700"]}
         />
-        <AppInput
-          onChangeText={setEditedTransaction}
-          value={editedTransaction}
-          className="font-base text-white mt-[10]"
-          bg="bg-dark"
+        <TextInput
+          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
+          placeholder="Preço"
+          placeholderTextColor={colors.gray["700"]}
         />
       </View>
     </View>

@@ -14,7 +14,6 @@ import {
 } from "react";
 import { useAuthContext } from "./auth.context";
 import { useSnackbarContext } from "./snackbacr.context";
-import { AppError } from "@/shared/helpers/AppError";
 import { TotalTransactions } from "@/shared/interfaces/total-transactions";
 
 export interface SearchFilterParams {
@@ -73,38 +72,23 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
 
     setRefreshLoading(true);
 
-    try {
-      const response = await dtMoneyService.getTransactions({
-        page: 1,
-        perPage: page * perPage,
-        filters,
-        userId: user.id,
-        searchText,
-      });
+    const response = await dtMoneyService.getTransactions({
+      page: 1,
+      perPage: page * perPage,
+      filters,
+      userId: user.id,
+      searchText,
+    });
 
-      setTransactions(response.data);
+    setTransactions(response.data);
 
-      setTotalTransactions(response.totalTransactions);
-      setPagination({
-        ...pagination,
-        page,
-      });
-      setTotalPages(response.totalPages);
-    } catch (error) {
-      if (error instanceof AppError) {
-        notify({
-          message: error.message,
-          messageType: "ERROR",
-        });
-      } else {
-        notify({
-          message: "Erro ao buscar transações",
-          messageType: "ERROR",
-        });
-      }
-    } finally {
-      setRefreshLoading(false);
-    }
+    setTotalTransactions(response.totalTransactions);
+    setPagination({
+      ...pagination,
+      page,
+    });
+    setTotalPages(response.totalPages);
+    setRefreshLoading(false);
   }, [pagination, notify, user, filters, searchText]);
 
   const fetchTransactions = useCallback(
@@ -113,42 +97,28 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
 
       setLoading(true);
 
-      try {
-        const response = await dtMoneyService.getTransactions({
-          page: page,
-          perPage: pagination.perPage,
-          filters,
-          userId: user.id,
-          searchText,
-        });
+      const response = await dtMoneyService.getTransactions({
+        page: page,
+        perPage: pagination.perPage,
+        filters,
+        userId: user.id,
+        searchText,
+      });
 
-        if (page === 1) {
-          setTransactions(response.data);
-        } else {
-          setTransactions((prev) => [...prev, ...response.data]);
-        }
-
-        setTotalTransactions(response.totalTransactions);
-        setPagination({
-          ...pagination,
-          page,
-        });
-        setTotalPages(response.totalPages);
-      } catch (error) {
-        if (error instanceof AppError) {
-          notify({
-            message: error.message,
-            messageType: "ERROR",
-          });
-        } else {
-          notify({
-            message: "Erro ao buscar transações",
-            messageType: "ERROR",
-          });
-        }
-      } finally {
-        setLoading(false);
+      if (page === 1) {
+        setTransactions(response.data);
+      } else {
+        setTransactions((prev) => [...prev, ...response.data]);
       }
+
+      setTotalTransactions(response.totalTransactions);
+      setPagination({
+        ...pagination,
+        page,
+      });
+      setTotalPages(response.totalPages);
+
+      setLoading(false);
     },
     [pagination, notify, user, filters, searchText]
   );
@@ -159,22 +129,8 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   }, [loading, pagination, fetchTransactions, totalPages]);
 
   const handleDelete = async (transactionId: number) => {
-    try {
-      await dtMoneyService.deleteTransaction(transactionId);
-      await refreshTransactions();
-    } catch (error) {
-      if (error instanceof AppError) {
-        notify({
-          message: error.message,
-          messageType: "ERROR",
-        });
-      } else {
-        notify({
-          message: "Erro ao deletar transações",
-          messageType: "ERROR",
-        });
-      }
-    }
+    await dtMoneyService.deleteTransaction(transactionId);
+    await refreshTransactions();
   };
 
   return (

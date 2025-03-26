@@ -10,9 +10,11 @@ import { useEffect } from "react";
 import { useTransactionContext } from "@/context/transaction.context";
 import { TransactionCard } from "./TransactionCard";
 import { colors } from "@/styles/colors";
+import { useErrorHandler } from "@/shared/hooks/errorHandler";
 
 const Home = () => {
-  
+  const { handleError } = useErrorHandler();
+
   const {
     fetchTransactions,
     transactions,
@@ -21,8 +23,33 @@ const Home = () => {
     refreshTransactions,
     refreshLoading,
   } = useTransactionContext();
+
+  const reloadTransactions = async () => {
+    try {
+      await refreshTransactions();
+    } catch (error) {
+      handleError(error, "Falha ao recarregar transações");
+    }
+  };
+
+  const fetchInitialTransactions = async () => {
+    try {
+      fetchTransactions({ page: 1 });
+    } catch (error) {
+      handleError(error, "Falha ao buscar transações");
+    }
+  };
+
+  const handleLoadMoreTransactions = async () => {
+    try {
+      await loadMoreTransactions();
+    } catch (error) {
+      handleError(error, "Falha ao buscar novas transações");
+    }
+  };
+
   useEffect(() => {
-    fetchTransactions({ page: 1 });
+    fetchInitialTransactions();
   }, []);
 
   return (
@@ -33,7 +60,7 @@ const Home = () => {
         refreshControl={
           <RefreshControl
             refreshing={refreshLoading}
-            onRefresh={refreshTransactions}
+            onRefresh={reloadTransactions}
             tintColor={colors["accent-brand-light"]}
             colors={[colors["accent-brand-light"]]}
           />
@@ -41,14 +68,18 @@ const Home = () => {
         ListHeaderComponent={Evaluetions}
         keyExtractor={(transaction) => `transaction-${transaction.id}`}
         ListEmptyComponent={
-          <Text className="text-center text-gray-600 text-lg mt-4">
-            Nenhuma transação encontrada
-          </Text>
+          <>
+            {!loading && transactions.length === 0 && (
+              <Text className="text-center text-gray-600 text-lg mt-4">
+                Nenhuma transação encontrada
+              </Text>
+            )}
+          </>
         }
         renderItem={({ item: transaction }) => (
           <TransactionCard transaction={transaction} />
         )}
-        onEndReached={loadMoreTransactions}
+        onEndReached={handleLoadMoreTransactions}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
           loading ? (

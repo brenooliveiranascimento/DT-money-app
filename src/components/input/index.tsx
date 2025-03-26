@@ -12,20 +12,16 @@ import { colors } from "@/styles/colors";
 interface AppInputParams extends TextInputProps {
   onChangeText: (text: string) => void;
   leftIconName?: keyof typeof MaterialIcons.glyphMap;
-  rightIconName?: keyof typeof MaterialIcons.glyphMap;
   renderRight?: () => ReactNode;
   label?: string;
   error?: boolean;
-  bg?: string;
 }
 
 export const AppInput: FC<AppInputParams> = ({
   leftIconName,
-  rightIconName,
   label,
   secureTextEntry,
   error,
-  bg,
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -39,7 +35,7 @@ export const AppInput: FC<AppInputParams> = ({
     }
   };
 
-  const defaultColor = error
+  const defaultLabelColor = error
     ? "text-red"
     : isFocused
     ? "text-green"
@@ -52,16 +48,16 @@ export const AppInput: FC<AppInputParams> = ({
     : colors.gray["600"];
 
   const handleSecurityEntry = () => setShowText((prev) => !prev);
-
+  console.log(leftIconName);
   return (
-    <View className="mb-2 w-full">
-      {label && <Text className={`${defaultColor} mb-2 mt-3`}>{label}</Text>}
+    <View className="mb-4 w-full">
+      {label && (
+        <Text className={`${defaultLabelColor} mb-2 mt-3`}>{label}</Text>
+      )}
       <TouchableOpacity
         onPress={() => inputRef.current?.focus()}
         activeOpacity={1}
-        className={`flex-row items-center border-b border-gray-600 px-3 py-2 h-16 ${
-          bg ?? ""
-        }`}
+        className={`flex-row items-center justify-between border-b border-gray-600 px-3 py-2 h-16`}
       >
         {leftIconName && (
           <MaterialIcons
@@ -71,6 +67,7 @@ export const AppInput: FC<AppInputParams> = ({
             size={26}
           />
         )}
+
         <TextInput
           ref={inputRef}
           placeholderTextColor={colors.gray["600"]}
@@ -80,15 +77,6 @@ export const AppInput: FC<AppInputParams> = ({
           secureTextEntry={showText}
           {...rest}
         />
-
-        {rightIconName && (
-          <MaterialIcons
-            color={colors.gray["600"]}
-            className="mr-3"
-            name={rightIconName}
-            size={26}
-          />
-        )}
 
         {secureTextEntry && (
           <TouchableOpacity onPress={handleSecurityEntry}>

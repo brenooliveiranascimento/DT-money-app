@@ -60,7 +60,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         enablePanDownToClose
         onChange={handleSheetChanges}
         index={-1}
-        snapPoints={["40%", "60%"]}
+        // snapPoints={["60%"]}
         backgroundStyle={{
           backgroundColor: colors.gray["1000"],
           borderTopLeftRadius: 32,
@@ -69,7 +69,7 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         }}
         style={{ zIndex: 2 }}
       >
-        <BottomSheetView className="flex-1 items-center bg-gray-1000 mh-[100]">
+        <BottomSheetView className="flex-1 items-center bg-gray-1000 min-h-[400]">
           {content}
         </BottomSheetView>
       </BottomSheet>

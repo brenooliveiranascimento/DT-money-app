@@ -8,8 +8,6 @@ import {
   useState,
 } from "react";
 import * as authApi from "@/shared/services/dt-money/auth.service";
-import { useSnackbarContext } from "./snackbacr.context";
-import { AppError } from "@/shared/helpers/AppError";
 import { User } from "@/shared/interfaces/user-interface";
 import { FormRegister } from "@/screens/Register/Form";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -35,8 +33,6 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [refreshToken, setRefreshToken] = useState(null);
 
-  const { notify } = useSnackbarContext();
-
   const handleLogout = async () => {
     setToken(null);
     setUser(null);
@@ -44,37 +40,19 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleAuthenticate = async ({ email, password }: FormLogin) => {
-    try {
-      const { token, user } = await authApi.authenticate({ email, password });
-      await AsyncStorage.setItem(
-        "dt-money-user",
-        JSON.stringify({ user, token })
-      );
-      setToken(token);
-      setUser(user);
-    } catch (error) {
-      if (error instanceof AppError) {
-        notify({
-          message: error.message,
-          messageType: "ERROR",
-        });
-      }
-    }
+    const { token, user } = await authApi.authenticate({ email, password });
+    await AsyncStorage.setItem(
+      "dt-money-user",
+      JSON.stringify({ user, token })
+    );
+    setToken(token);
+    setUser(user);
   };
 
   const handleRegister = async (formData: FormRegister) => {
-    try {
-      const response = await authApi.registerUser(formData);
-      setToken(response.token);
-      setUser(response.user);
-    } catch (error) {
-      if (error instanceof AppError) {
-        notify({
-          message: error.message,
-          messageType: "ERROR",
-        });
-      }
-    }
+    const response = await authApi.registerUser(formData);
+    setToken(response.token);
+    setUser(response.user);
   };
 
   useEffect(() => {
