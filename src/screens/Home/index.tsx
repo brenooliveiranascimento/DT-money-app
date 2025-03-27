@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Evaluetions } from "./Evaluetions";
+import { ListHeader } from "./ListHeader";
 import {
   ActivityIndicator,
   FlatList,
@@ -65,7 +65,7 @@ const Home = () => {
             colors={[colors["accent-brand-light"]]}
           />
         }
-        ListHeaderComponent={Evaluetions}
+        ListHeaderComponent={ListHeader}
         keyExtractor={(transaction) => `transaction-${transaction.id}`}
         ListEmptyComponent={
           <>

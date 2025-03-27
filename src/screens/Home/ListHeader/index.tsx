@@ -1,10 +1,10 @@
-import { ScrollView, Text, View } from "react-native";
-import { RevenueCard } from "./RevenueCard";
+import { ScrollView, View } from "react-native";
 import { ExpenseCard } from "./ExpenseCard";
 import { TotalCard } from "./TotalCard";
 import { AppHeader } from "@/components/AppHeader";
+import { RevenueCard } from "./RevenueCard";
 
-export const Evaluetions = () => {
+export const ListHeader = () => {
   return (
     <View>
       <AppHeader />

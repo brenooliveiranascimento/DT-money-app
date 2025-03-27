@@ -8,7 +8,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
 import SelectModal from "@/components/SelectCategory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransactionTypeSelector from "@/components/SelectType";
 import { AppButton } from "@/components/AppButton";
 import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
@@ -37,6 +37,7 @@ export const NewTransaction = () => {
   const [validationErrors, setValidationErrors] =
     useState<Record<keyof TransactionInterface, string>>();
   console.log({ validationErrors });
+  const [displayValue, setDisplayValue] = useState("");
 
   const [transaction, setTransaction] = useState<TransactionInterface>({
     typeId: 0,
@@ -54,12 +55,14 @@ export const NewTransaction = () => {
   const setCategory = (categoryId: number) =>
     setTransaction((prev) => ({ ...prev, categoryId }));
 
-  const setValue = (value: string) => {
-    const rawValue = unMask(value);
-    console.log(rawValue);
+  const handleChangeValue = (value: string) => {
+    const [_, number] = value.split("R$");
+
+    if (isNaN(Number(number))) return;
+
     setTransaction((prev) => ({
       ...prev,
-      value: Number(rawValue) / 100,
+      value: Number(number),
     }));
   };
 
@@ -78,8 +81,7 @@ export const NewTransaction = () => {
         },
         { abortEarly: false }
       );
-      if (!transaction) return;
-      console.log("AQUI");
+
       await createTransaction({
         categoryId,
         typeId: transaction.typeId,
@@ -122,12 +124,12 @@ export const NewTransaction = () => {
           }
         />
         <TextInput
-          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
-          placeholder="Preço"
-          placeholderTextColor={colors.gray["700"]}
           keyboardType="numeric"
-          value={mask(transaction.value.toString(), "R$ 999.999.999,99")}
-          onChangeText={setValue}
+          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
+          value={mask(transaction.value.toString(), "R$ 999999999.99")}
+          onChangeText={handleChangeValue}
+          placeholder="R$ 0,00"
+          placeholderTextColor={colors.gray["700"]}
         />
         {validationErrors?.value && (
           <ErrorMessage>{validationErrors.value}</ErrorMessage>
