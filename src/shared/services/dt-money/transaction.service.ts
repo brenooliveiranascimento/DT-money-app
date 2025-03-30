@@ -10,12 +10,20 @@ import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.in
 export const getTransactions = async (
   params: GetTransactionsParams
 ): Promise<GetTransactionsResponse> => {
+  console.log(
+    Object.entries(params.categoryIds)
+      .filter(([_, value]) => value)
+      .map(([id]) => Number(id))
+  );
   const { data } = await dtMoneyApi.get<GetTransactionsResponse>(
     "/transaction",
     {
       params: {
         ...params,
-        categoryIds: Object.keys(params.filters.categoryIds) ?? [],
+        categoryIds:
+          Object.entries(params.categoryIds)
+            .filter(([_, value]) => value)
+            .map(([id]) => Number(id)) ?? [],
       },
     }
   );

@@ -107,7 +107,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     const response = await dtMoneyService.getTransactions({
       page: 1,
       perPage: page * perPage,
-      filters,
+      ...filters,
       userId: user.id,
       searchText,
     });
@@ -132,9 +132,9 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
       const response = await dtMoneyService.getTransactions({
         page: page,
         perPage: pagination.perPage,
-        filters,
         userId: user.id,
         searchText,
+        ...filters,
       });
 
       if (page === 1) {

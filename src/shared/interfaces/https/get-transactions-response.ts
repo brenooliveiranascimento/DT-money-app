@@ -19,7 +19,10 @@ export interface GetTransactionsParams {
   userId: number;
   page: number;
   perPage: number;
-  filters: Filters;
+  from?: Date;
+  to?: Date;
+  typeId?: number;
+  categoryIds: Record<number, boolean> | number[];
   sort?: {
     id?: OrderDirection;
   };

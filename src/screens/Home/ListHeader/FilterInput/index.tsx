@@ -39,11 +39,11 @@ export const FilterInput = () => {
         <Text className="text-white text-xl font-bold mt-4 mb-3">
           Transações
         </Text>
-        {transactions.length && (
+        {/* {transactions.length && (
           <Text className="text-gray-700 text-xl mt-4 mb-3">
             {transactions.length} {transactions.length === 1 ? "Item" : "itens"}
           </Text>
-        )}
+        )} */}
       </View>
       <TouchableOpacity
         onPress={() => inputRef.current?.focus()}

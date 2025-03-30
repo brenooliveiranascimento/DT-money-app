@@ -33,15 +33,15 @@ const FiltroTransacoes = () => {
   };
 
   const handleCategoriaChange = (categoryId: number) => {
-    // if (filters.categoryIds) {
-    //   handleFilter({
-    //     key: "categoryIds",
-    //     value: {
-    //       ...filters.categoryIds,
-    //       [categoryId]: !Boolean(filters.categoryIds[categoryId]),
-    //     },
-    //   });
-    // }
+    if (filters.categoryIds) {
+      handleFilter({
+        key: "categoryIds",
+        value: {
+          ...filters.categoryIds,
+          [categoryId]: !Boolean(filters.categoryIds[categoryId]),
+        },
+      });
+    }
   };
 
   const handleTipoTransacaoChange = (transactionType: TransactionTypes) => {
@@ -147,7 +147,7 @@ const FiltroTransacoes = () => {
               className="flex-row items-center py-2"
             >
               <Checkbox
-                value={filters.categoryIds[id] || false}
+                value={Boolean(filters.categoryIds[id]) || false}
                 onValueChange={() => handleCategoriaChange(id)}
                 color={
                   filters.categoryIds[id]
@@ -167,12 +167,12 @@ const FiltroTransacoes = () => {
           </Text>
           <View className="flex-row items-center py-2">
             <Checkbox
-              value={filters.typeId === TransactionTypes.EXPENSE}
+              value={filters.typeId === TransactionTypes.REVENUE}
               onValueChange={() =>
-                handleTipoTransacaoChange(TransactionTypes.EXPENSE)
+                handleTipoTransacaoChange(TransactionTypes.REVENUE)
               }
               color={
-                filters.typeId === TransactionTypes.EXPENSE
+                filters.typeId === TransactionTypes.REVENUE
                   ? colors["accent-brand-light"]
                   : undefined
               }
@@ -182,12 +182,12 @@ const FiltroTransacoes = () => {
           </View>
           <View className="flex-row items-center py-2">
             <Checkbox
-              value={filters.typeId === TransactionTypes.REVENUE}
+              value={filters.typeId === TransactionTypes.EXPENSE}
               onValueChange={() =>
-                handleTipoTransacaoChange(TransactionTypes.REVENUE)
+                handleTipoTransacaoChange(TransactionTypes.EXPENSE)
               }
               color={
-                filters.typeId === TransactionTypes.REVENUE
+                filters.typeId === TransactionTypes.EXPENSE
                   ? colors["accent-brand-light"]
                   : undefined
               }
