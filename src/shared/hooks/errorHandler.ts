@@ -9,7 +9,7 @@ export const useErrorHandler = () => {
     const message = isAppError
       ? error.message
       : defaultMessage ?? "Falha na requisição";
-    console.log("A", error);
+
     notify({
       message,
       messageType: "ERROR",

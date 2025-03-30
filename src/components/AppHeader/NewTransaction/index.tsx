@@ -1,53 +1,35 @@
-import {
-  ActivityIndicator,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, Text, TextInput, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
 import SelectModal from "@/components/SelectCategory";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TransactionTypeSelector from "@/components/SelectType";
 import { AppButton } from "@/components/AppButton";
-import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
 import { useErrorHandler } from "@/shared/hooks/errorHandler";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { useTransactionContext } from "@/context/transaction.context";
 import { transactionSchema } from "./schema";
 import * as Yup from "yup";
 import { useBottomSheetContext } from "@/context/bottomsheet.context";
-import { mask, unMask } from "react-native-mask-text";
-
-interface TransactionInterface {
-  typeId: number;
-  value: number;
-  description: string;
-  categoryId: number;
-}
+import { CreateTransactionInterface } from "@/shared/interfaces/https/create-transaction-params";
+import CurrencyInput from "react-native-currency-input";
 
 export const NewTransaction = () => {
-  const [showModal, setShowModal] = useState(false);
   const { handleError } = useErrorHandler();
   const [loading, setLoading] = useState(false);
+
   const { createTransaction } = useTransactionContext();
   const { closeBottomSheet } = useBottomSheetContext();
 
   const [validationErrors, setValidationErrors] =
-    useState<Record<keyof TransactionInterface, string>>();
-  console.log({ validationErrors });
-  const [displayValue, setDisplayValue] = useState("");
+    useState<Record<keyof CreateTransactionInterface, string>>();
 
-  const [transaction, setTransaction] = useState<TransactionInterface>({
+  const [transaction, setTransaction] = useState<CreateTransactionInterface>({
     typeId: 0,
     value: 0,
     description: "",
     categoryId: 0,
   });
-
-  const closeModal = () => setShowModal(false);
-  const openModal = () => setShowModal(true);
 
   const setType = (typeId: number) =>
     setTransaction((prev) => ({ ...prev, typeId }));
@@ -55,14 +37,13 @@ export const NewTransaction = () => {
   const setCategory = (categoryId: number) =>
     setTransaction((prev) => ({ ...prev, categoryId }));
 
-  const handleChangeValue = (value: string) => {
-    const [_, number] = value.split("R$");
+  const setDescription = (description: string) =>
+    setTransaction((prev) => ({ ...prev, description }));
 
-    if (isNaN(Number(number))) return;
-
+  const setValue = (value: number) => {
     setTransaction((prev) => ({
       ...prev,
-      value: Number(number),
+      value,
     }));
   };
 
@@ -82,20 +63,16 @@ export const NewTransaction = () => {
         { abortEarly: false }
       );
 
-      await createTransaction({
-        categoryId,
-        typeId: transaction.typeId,
-        value: transaction.value,
-      });
+      await createTransaction(transaction);
 
       closeBottomSheet();
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        const errors = {} as Record<keyof TransactionInterface, string>;
+        const errors = {} as Record<keyof CreateTransactionInterface, string>;
 
         error.inner.forEach((err) => {
           if (err.path) {
-            errors[err.path as keyof TransactionInterface] = err.message;
+            errors[err.path as keyof CreateTransactionInterface] = err.message;
           }
         });
         setValidationErrors(errors);
@@ -119,33 +96,27 @@ export const NewTransaction = () => {
           placeholder="Descrição"
           placeholderTextColor={colors.gray["700"]}
           value={transaction.description}
-          onChangeText={(text) =>
-            setTransaction((prev) => ({ ...prev, description: text }))
-          }
+          onChangeText={setDescription}
         />
-        <TextInput
-          keyboardType="numeric"
-          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
-          value={mask(transaction.value.toString(), "R$ 999999999.99")}
-          onChangeText={handleChangeValue}
-          placeholder="R$ 0,00"
+        <CurrencyInput
+          value={transaction.value}
+          onChangeValue={setValue}
+          prefix="R$ "
+          delimiter="."
+          separator=","
+          placeholder="RS"
           placeholderTextColor={colors.gray["700"]}
+          precision={2}
+          minValue={0}
+          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
         />
         {validationErrors?.value && (
           <ErrorMessage>{validationErrors.value}</ErrorMessage>
         )}
-        <TouchableOpacity
-          onPress={openModal}
-          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4 justify-center"
-        >
-          <Text
-            className={`${
-              transaction.categoryId ? "text-white" : "text-gray-700"
-            } text-lg`}
-          >
-            {transaction.categoryId ?? "Categoria"}
-          </Text>
-        </TouchableOpacity>
+        <SelectModal
+          onSelect={setCategory}
+          selectedCategory={transaction.categoryId}
+        />
         {validationErrors?.categoryId && (
           <ErrorMessage>{validationErrors.categoryId}</ErrorMessage>
         )}
@@ -162,13 +133,6 @@ export const NewTransaction = () => {
           </AppButton>
         </View>
       </View>
-
-      <SelectModal
-        onClose={closeModal}
-        visible={showModal}
-        onSelect={(category) => setCategory(category)}
-        selectedItem={transaction.categoryId}
-      />
     </View>
   );
 };

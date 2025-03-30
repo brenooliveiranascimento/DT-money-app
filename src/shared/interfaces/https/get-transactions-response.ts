@@ -12,7 +12,7 @@ export interface Filters {
   from?: Date;
   to?: Date;
   typeId?: number;
-  categoryId?: number;
+  categoryIds: Record<number, boolean> | number[];
 }
 
 export interface GetTransactionsParams {

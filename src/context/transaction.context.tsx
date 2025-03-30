@@ -16,10 +16,19 @@ import { useAuthContext } from "./auth.context";
 import { useSnackbarContext } from "./snackbacr.context";
 import { TotalTransactions } from "@/shared/interfaces/total-transactions";
 import { CreateTransactionInterface } from "@/shared/interfaces/https/create-transaction-params";
+import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
+import { UpdateTransactionInterface } from "@/shared/interfaces/https/update-transaction-params";
+
+export interface IFilterParams {
+  from?: Date;
+  to?: Date;
+  typeId?: number;
+  categoryIds?: Record<number, boolean>;
+}
 
 export interface SearchFilterParams {
   key: keyof Filters;
-  value: Date | number;
+  value: Date | number | Record<number, boolean>;
 }
 
 export interface FetchTransactionsParams {
@@ -39,6 +48,10 @@ type TransactionTextType = {
   totalTransactions: TotalTransactions;
   handleDelete: (transactionId: number) => Promise<void>;
   createTransaction: (transcation: CreateTransactionInterface) => Promise<void>;
+  categories: TransactionCategory[];
+  fetchCategories: () => Promise<void>;
+  updateTransaction: (transaction: UpdateTransactionInterface) => Promise<void>;
+  filters: Filters;
 };
 
 export const TransactionContext = createContext({} as TransactionTextType);
@@ -54,7 +67,14 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [totalPages, setTotalPages] = useState(15);
   const [searchText, setSearchText] = useState<string>("");
-  const [filters, setFilters] = useState<Filters>({});
+  const [filters, setFilters] = useState<Filters>({
+    categoryIds: {},
+    from: undefined,
+    to: undefined,
+    typeId: undefined,
+  });
+  const [categories, setCategories] = useState<TransactionCategory[]>([]);
+
   const [totalTransactions, setTotalTransactions] = useState<TotalTransactions>(
     { expense: 0, revenue: 0, total: 0 }
   );
@@ -70,6 +90,11 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
 
   const createTransaction = async (transaction: CreateTransactionInterface) => {
     await dtMoneyService.createTransaction(transaction);
+    await refreshTransactions();
+  };
+
+  const updateTransaction = async (transaction: UpdateTransactionInterface) => {
+    await dtMoneyService.updateTransaction(transaction);
     await refreshTransactions();
   };
 
@@ -101,7 +126,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   const fetchTransactions = useCallback(
     async ({ page = 1 }) => {
       if (!user) return;
-
+      console.log(filters);
       setLoading(true);
 
       const response = await dtMoneyService.getTransactions({
@@ -135,6 +160,11 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     fetchTransactions({ page: pagination.page + 1 });
   }, [loading, pagination, fetchTransactions, totalPages]);
 
+  const fetchCategories = async () => {
+    const categories = await dtMoneyService.getTransactionCategories();
+    setCategories(categories);
+  };
+
   const handleDelete = async (transactionId: number) => {
     await dtMoneyService.deleteTransaction(transactionId);
     await refreshTransactions();
@@ -155,6 +185,10 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         totalTransactions,
         handleDelete,
         createTransaction,
+        fetchCategories,
+        categories,
+        updateTransaction,
+        filters,
       }}
     >
       {children}

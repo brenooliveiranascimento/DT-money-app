@@ -4,7 +4,6 @@ import {
   FC,
   PropsWithChildren,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import * as authApi from "@/shared/services/dt-money/auth.service";
@@ -16,11 +15,10 @@ import { IAuthenticateResponse } from "@/shared/interfaces/https/autehnticate-re
 type AuthContextType = {
   user: User | null;
   token: string | null;
-  refreshToken: string | null;
   handleAuthenticate: (params: FormLogin) => Promise<void>;
   handleRegister: (params: FormRegister) => Promise<void>;
   handleLogout: () => void;
-  loading: boolean;
+  restoreUserSession: () => Promise<string | null>;
 };
 
 export const AuthContext = createContext<AuthContextType>(
@@ -30,13 +28,11 @@ export const AuthContext = createContext<AuthContextType>(
 export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [refreshToken, setRefreshToken] = useState(null);
 
   const handleLogout = async () => {
+    await AsyncStorage.removeItem("dt-money-user");
     setToken(null);
     setUser(null);
-    await AsyncStorage.removeItem("dt-money-user");
   };
 
   const handleAuthenticate = async ({ email, password }: FormLogin) => {
@@ -55,34 +51,25 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     setUser(response.user);
   };
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const userData = await AsyncStorage.getItem("dt-money-user");
-        if (userData) {
-          const { token, user } = JSON.parse(userData) as IAuthenticateResponse;
-          setToken(token);
-          setUser(user);
-        }
-      } catch {
-        handleLogout();
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, []);
+  const restoreUserSession = async () => {
+    const userData = await AsyncStorage.getItem("dt-money-user");
+    if (userData) {
+      const { token, user } = JSON.parse(userData) as IAuthenticateResponse;
+      setToken(token);
+      setUser(user);
+    }
+    return userData;
+  };
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        refreshToken,
         token,
         handleAuthenticate,
         handleRegister,
         handleLogout,
-        loading,
+        restoreUserSession,
       }}
     >
       {children}

@@ -5,10 +5,7 @@ import {
   useCallback,
   useState,
 } from "react";
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import { colors } from "@/styles/colors";
 
@@ -63,7 +60,6 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         enablePanDownToClose
         onChange={handleSheetChanges}
         index={-1}
-        // snapPoints={["60%"]}
         backgroundStyle={{
           backgroundColor: colors.gray["1000"],
           borderTopLeftRadius: 32,

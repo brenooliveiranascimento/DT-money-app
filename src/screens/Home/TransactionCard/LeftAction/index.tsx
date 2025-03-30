@@ -12,14 +12,14 @@ interface Props {
 }
 
 export const LeftAction: FC<Props> = ({ transaction }) => {
-  const { closeBottomSheet, openBottomSheet } = useBottomSheetContext();
+  const { openBottomSheet } = useBottomSheetContext();
 
   return (
     <>
       <Pressable
         onPress={() =>
           openBottomSheet(
-            <EditTransactionBottomsheet transaction={transaction} />
+            <EditTransactionBottomsheet transactionToUpdate={transaction} />
           )
         }
       >

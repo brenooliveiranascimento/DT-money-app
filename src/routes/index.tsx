@@ -1,16 +1,17 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { PublicRoutes } from "./PublicRoutes";
-import { useCallback, useContext } from "react";
-import { AuthContext } from "@/context/auth.context";
+import { useCallback, useState } from "react";
+import { useAuthContext } from "@/context/auth.context";
 import { PrivateRoutes } from "./PrivateRoutes";
 import Loading from "../screens/Loading";
 
 const NavigatorRoutes = () => {
-  const { user, token, loading } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  const { user, token } = useAuthContext();
 
   const Routes = useCallback(() => {
     if (loading) {
-      return <Loading />;
+      return <Loading setLoading={setLoading} />;
     }
     if (token && user) {
       return <PrivateRoutes />;

@@ -5,7 +5,7 @@ export interface Transaction {
   id: number;
   typeId: number;
   categoryId: number;
-  description: string | null;
+  description: string | undefined;
   userId: number;
   value: number;
   createdAt: Date;

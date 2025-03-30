@@ -3,6 +3,7 @@ import { ExpenseCard } from "./ExpenseCard";
 import { TotalCard } from "./TotalCard";
 import { AppHeader } from "@/components/AppHeader";
 import { RevenueCard } from "./RevenueCard";
+import { FilterInput } from "./FilterInput";
 
 export const ListHeader = () => {
   return (
@@ -20,6 +21,7 @@ export const ListHeader = () => {
           <TotalCard />
         </ScrollView>
       </View>
+      <FilterInput />
     </View>
   );
 };

@@ -19,7 +19,9 @@ export interface FormLogin {
 
 export const LoginForm = () => {
   const { handleAuthenticate } = useAuthContext();
-  const { handleError } = useErrorHandler();
+  const { handleError } = useErrorHandler();  
+
+  
   const {
     control,
     handleSubmit,
