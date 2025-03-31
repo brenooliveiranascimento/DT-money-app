@@ -6,25 +6,17 @@ import {
 } from "@/shared/interfaces/https/get-transactions-response";
 import { UpdateTransactionInterface } from "@/shared/interfaces/https/update-transaction-params";
 import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
+import qs from "qs";
 
 export const getTransactions = async (
   params: GetTransactionsParams
 ): Promise<GetTransactionsResponse> => {
-  console.log(
-    Object.entries(params.categoryIds)
-      .filter(([_, value]) => value)
-      .map(([id]) => Number(id))
-  );
+  console.log(params.categoryIds);
   const { data } = await dtMoneyApi.get<GetTransactionsResponse>(
     "/transaction",
     {
-      params: {
-        ...params,
-        categoryIds:
-          Object.entries(params.categoryIds)
-            .filter(([_, value]) => value)
-            .map(([id]) => Number(id)) ?? [],
-      },
+      params,
+      paramsSerializer: (p) => qs.stringify(p, { arrayFormat: "repeat" }),
     }
   );
   return data;

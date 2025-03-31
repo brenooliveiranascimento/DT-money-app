@@ -10,6 +10,7 @@ import {
   PropsWithChildren,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import { useAuthContext } from "./auth.context";
@@ -28,7 +29,7 @@ export interface IFilterParams {
 
 export interface SearchFilterParams {
   key: keyof Filters;
-  value: Date | number | Record<number, boolean>;
+  value: Date | number | boolean;
 }
 
 export interface FetchTransactionsParams {
@@ -52,6 +53,15 @@ type TransactionTextType = {
   fetchCategories: () => Promise<void>;
   updateTransaction: (transaction: UpdateTransactionInterface) => Promise<void>;
   filters: Filters;
+  handleCategoryFilter: (categoryId: number) => void;
+  resetFilter: () => void;
+};
+
+const filterInitailData = {
+  categoryIds: {},
+  from: undefined,
+  to: undefined,
+  typeId: undefined,
 };
 
 export const TransactionContext = createContext({} as TransactionTextType);
@@ -88,6 +98,18 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const handleCategoryFilter = (categoryId: number) => {
+    setFilters({
+      ...filters,
+      categoryIds: {
+        ...filters.categoryIds,
+        [categoryId]: !Boolean(filters.categoryIds[categoryId]),
+      },
+    });
+  };
+
+  const resetFilter = () => setFilters(filterInitailData);
+
   const createTransaction = async (transaction: CreateTransactionInterface) => {
     await dtMoneyService.createTransaction(transaction);
     await refreshTransactions();
@@ -98,6 +120,12 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     await refreshTransactions();
   };
 
+  const categoryIds = useMemo(() => {
+    return Object.entries(filters.categoryIds)
+      .filter(([key, value]) => value)
+      .map(([key, value]) => Number(key));
+  }, [filters]);
+
   const refreshTransactions = useCallback(async () => {
     if (!user) return;
     const { page, perPage } = pagination;
@@ -107,9 +135,10 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     const response = await dtMoneyService.getTransactions({
       page: 1,
       perPage: page * perPage,
-      ...filters,
       userId: user.id,
       searchText,
+      ...filters,
+      categoryIds,
     });
 
     setTransactions(response.data);
@@ -126,7 +155,6 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   const fetchTransactions = useCallback(
     async ({ page = 1 }) => {
       if (!user) return;
-      console.log(filters);
       setLoading(true);
 
       const response = await dtMoneyService.getTransactions({
@@ -135,6 +163,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         userId: user.id,
         searchText,
         ...filters,
+        categoryIds,
       });
 
       if (page === 1) {
@@ -189,6 +218,8 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         categories,
         updateTransaction,
         filters,
+        handleCategoryFilter,
+        resetFilter,
       }}
     >
       {children}

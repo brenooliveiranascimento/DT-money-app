@@ -12,7 +12,7 @@ export interface Filters {
   from?: Date;
   to?: Date;
   typeId?: number;
-  categoryIds: Record<number, boolean> | number[];
+  categoryIds: Record<number, boolean>;
 }
 
 export interface GetTransactionsParams {
@@ -22,7 +22,7 @@ export interface GetTransactionsParams {
   from?: Date;
   to?: Date;
   typeId?: number;
-  categoryIds: Record<number, boolean> | number[];
+  categoryIds: number[];
   sort?: {
     id?: OrderDirection;
   };

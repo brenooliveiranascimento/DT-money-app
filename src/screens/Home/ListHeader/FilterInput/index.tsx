@@ -3,18 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
-import { useBottomSheet } from "@gorhom/bottom-sheet";
 import { useBottomSheetContext } from "@/context/bottomsheet.context";
 import FiltroTransacoes from "./FilterTransactionBottomSheet";
 
 export const FilterInput = () => {
-  const {
-    searchFilter,
-    setSearchFilter,
-    handleFilter,
-    transactions,
-    fetchTransactions,
-  } = useTransactionContext();
+  const { searchFilter, setSearchFilter, transactions, fetchTransactions } =
+    useTransactionContext();
 
   const { openBottomSheet } = useBottomSheetContext();
   const inputRef = useRef<TextInput>(null);
@@ -39,11 +33,9 @@ export const FilterInput = () => {
         <Text className="text-white text-xl font-bold mt-4 mb-3">
           Transações
         </Text>
-        {/* {transactions.length && (
-          <Text className="text-gray-700 text-xl mt-4 mb-3">
-            {transactions.length} {transactions.length === 1 ? "Item" : "itens"}
-          </Text>
-        )} */}
+        <Text className="text-gray-700 text-xl mt-4 mb-3">
+          {transactions.length} {transactions.length === 1 ? "Item" : "itens"}
+        </Text>
       </View>
       <TouchableOpacity
         onPress={() => inputRef.current?.focus()}
