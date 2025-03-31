@@ -108,8 +108,6 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     });
   };
 
-  const resetFilter = () => setFilters(filterInitailData);
-
   const createTransaction = async (transaction: CreateTransactionInterface) => {
     await dtMoneyService.createTransaction(transaction);
     await refreshTransactions();
@@ -199,6 +197,11 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     await refreshTransactions();
   };
 
+  const resetFilter = () => {
+    setFilters(filterInitailData);
+    fetchTransactions({ page: 1 });
+  };
+
   return (
     <TransactionContext.Provider
       value={{
@@ -214,7 +217,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         totalTransactions,
         handleDelete,
         createTransaction,
-        fetchCategories,
+        fetchCategories,  
         categories,
         updateTransaction,
         filters,
