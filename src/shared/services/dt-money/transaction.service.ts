@@ -11,7 +11,6 @@ import qs from "qs";
 export const getTransactions = async (
   params: GetTransactionsParams
 ): Promise<GetTransactionsResponse> => {
-  console.log(params.categoryIds);
   const { data } = await dtMoneyApi.get<GetTransactionsResponse>(
     "/transaction",
     {

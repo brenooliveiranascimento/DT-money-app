@@ -13,11 +13,12 @@ import { TransactionDate } from "./TransactionDate";
 const FiltroTransacoes = () => {
   const { fetchTransactions, resetFilter } = useTransactionContext();
   const { close } = useBottomSheet();
+  const { handleError } = useErrorHandler();
   const getTranscations = async () => {
     try {
       await fetchTransactions({ page: 1 });
     } catch (error) {
-      useErrorHandler();
+      handleError(error, "Falha ao aplicar filtros");
     } finally {
       close();
     }

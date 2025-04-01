@@ -48,7 +48,6 @@ export const AppInput: FC<AppInputParams> = ({
     : colors.gray["600"];
 
   const handleSecurityEntry = () => setShowText((prev) => !prev);
-  console.log(leftIconName);
   return (
     <View className="mb-4 w-full">
       {label && (
