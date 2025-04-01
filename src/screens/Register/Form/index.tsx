@@ -55,19 +55,16 @@ export const RegisterForm = () => {
           field: { onBlur, onChange, value },
           fieldState: { error },
         }) => (
-          <>
-            <AppInput
-              leftIconName="person"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Seu nome"
-              label="Seu nome completo"
-              error={Boolean(error)}
-              autoComplete="name"
-            />
-            <ErrorMessage>{error?.message}</ErrorMessage>
-          </>
+          <AppInput
+            leftIconName="person"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Seu nome"
+            label="Seu nome completo"
+            error={error?.message}
+            autoComplete="name"
+          />
         )}
       />
 
@@ -78,19 +75,16 @@ export const RegisterForm = () => {
           field: { onBlur, onChange, value },
           fieldState: { error },
         }) => (
-          <>
-            <AppInput
-              leftIconName="mail-outline"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="main@exemplo.br"
-              label="E-Mail"
-              error={Boolean(error)}
-              autoComplete="email"
-            />
-            <ErrorMessage>{error?.message}</ErrorMessage>
-          </>
+          <AppInput
+            leftIconName="mail-outline"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="main@exemplo.br"
+            label="E-Mail"
+            error={error?.message}
+            autoComplete="email"
+          />
         )}
       />
 
@@ -101,20 +95,17 @@ export const RegisterForm = () => {
           field: { onBlur, onChange, value },
           fieldState: { error },
         }) => (
-          <>
-            <AppInput
-              leftIconName="lock-outline"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Sua senha"
-              label="SENHA"
-              secureTextEntry
-              error={Boolean(error)}
-              autoComplete="password"
-            />
-            <ErrorMessage>{error?.message}</ErrorMessage>
-          </>
+          <AppInput
+            leftIconName="lock-outline"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Sua senha"
+            label="SENHA"
+            secureTextEntry
+            error={error?.message}
+            autoComplete="password"
+          />
         )}
       />
 
@@ -125,19 +116,16 @@ export const RegisterForm = () => {
           field: { onBlur, onChange, value },
           fieldState: { error },
         }) => (
-          <>
-            <AppInput
-              leftIconName="lock-outline"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Confirmar sua senha"
-              label="Confirmar senha"
-              secureTextEntry
-              error={Boolean(error)}
-            />
-            <ErrorMessage>{error?.message}</ErrorMessage>
-          </>
+          <AppInput
+            leftIconName="lock-outline"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Confirmar sua senha"
+            label="Confirmar senha"
+            secureTextEntry
+            error={error?.message}
+          />
         )}
       />
 

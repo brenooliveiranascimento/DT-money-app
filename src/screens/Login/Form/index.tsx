@@ -53,19 +53,16 @@ export const LoginForm = () => {
           field: { onBlur, onChange, value },
           fieldState: { error },
         }) => (
-          <>
-            <AppInput
-              leftIconName="mail-outline"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Mail@exemplo.br"
-              label="EMAIL"
-              error={Boolean(error)}
-              autoComplete="email"
-            />
-            <ErrorMessage>{error?.message}</ErrorMessage>
-          </>
+          <AppInput
+            leftIconName="mail-outline"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Mail@exemplo.br"
+            label="EMAIL"
+            error={error?.message}
+            autoComplete="email"
+          />
         )}
       />
 
@@ -76,20 +73,17 @@ export const LoginForm = () => {
           field: { onBlur, onChange, value },
           fieldState: { error },
         }) => (
-          <>
-            <AppInput
-              leftIconName="lock-outline"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder="Sua senha"
-              label="SENHA"
-              secureTextEntry
-              error={Boolean(error)}
-              autoComplete="password"
-            />
-            <ErrorMessage>{error?.message}</ErrorMessage>
-          </>
+          <AppInput
+            leftIconName="lock-outline"
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            placeholder="Sua senha"
+            label="SENHA"
+            secureTextEntry
+            error={error?.message}
+            autoComplete="password"
+          />
         )}
       />
 
