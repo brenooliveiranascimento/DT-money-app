@@ -1,5 +1,4 @@
 import { useAuthContext } from "@/context/auth.context";
-import { useTransactionContext } from "@/context/transaction.context";
 import { colors } from "@/styles/colors";
 import { FC, useEffect } from "react";
 import { ActivityIndicator, Image } from "react-native";
@@ -11,16 +10,13 @@ interface Props {
 
 const Loading: FC<Props> = ({ setLoading }) => {
   const { restoreUserSession, handleLogout } = useAuthContext();
-  const { fetchCategories } = useTransactionContext();
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const [user] = await Promise.all([
-          restoreUserSession(),
-          fetchCategories(),
-        ]);
+        const user = await restoreUserSession();
+
         if (!user) {
           handleLogout();
         }

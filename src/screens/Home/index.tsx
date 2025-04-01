@@ -22,6 +22,7 @@ const Home = () => {
     loadMoreTransactions,
     refreshTransactions,
     refreshLoading,
+    fetchCategories,
   } = useTransactionContext();
 
   const reloadTransactions = async () => {
@@ -48,8 +49,18 @@ const Home = () => {
     }
   };
 
+  const handleFetchCategories = async () => {
+    try {
+      fetchCategories();
+    } catch (error) {
+      handleError(error, "Falha ao buscar categorias de transação");
+    }
+  };
+
   useEffect(() => {
-    fetchInitialTransactions();
+    (async () => {
+      await Promise.all([handleFetchCategories(), fetchInitialTransactions()]);
+    })();
   }, []);
 
   return (

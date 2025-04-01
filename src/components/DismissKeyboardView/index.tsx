@@ -1,3 +1,4 @@
+import { FC, PropsWithChildren } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -6,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-const DismissKeyboardView = ({ children }: { children: React.ReactNode }) => {
+const DismissKeyboardView: FC<PropsWithChildren> = ({ children }) => {
   return (
     <SafeAreaView className="flex-1 bg-dark">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
