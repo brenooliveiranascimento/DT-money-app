@@ -19,19 +19,18 @@ export const AppButton: FC<PropsWithChildren<AppButtonParams>> = ({
 }) => {
   const baseColor = `${
     mode === "fill" ? "text-white" : "text-green"
-  } font-bold text-xl`;
+  } font-normal`;
 
   const buttonClassNames: string[] = [
     "w-full",
     "rounded-xl",
-    "px-6",
+    "px-5",
     "flex-row",
     "items-center",
     "h-button",
   ];
 
   if (iconName) {
-    if(mode === "fill")
     buttonClassNames.push("justify-between");
   } else {
     buttonClassNames.push("justify-center");
@@ -40,17 +39,16 @@ export const AppButton: FC<PropsWithChildren<AppButtonParams>> = ({
   if (mode === "fill") {
     buttonClassNames.push("bg-green");
   } else {
-    buttonClassNames.push("bg-none border-2");
+    buttonClassNames.push("bg-none border-[1px]");
     buttonClassNames.push("border-green");
   }
 
   return (
     <TouchableOpacity {...rest} className={buttonClassNames.join(" ")}>
-      <Text className={`${baseColor} text-lg`}>{children}</Text>
+      <Text className={`${baseColor} text-base`}>{children}</Text>
       {iconName && (
         <MaterialIcons
           color={mode === "fill" ? colors.white : colors.green}
-          className="mr-3"
           name={iconName}
           size={24}
         />
