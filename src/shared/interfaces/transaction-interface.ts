@@ -1,4 +1,4 @@
-import { TransactionCategory } from "./transaction-categoty.interface";
+import { TransactionCategory } from "./transaction-category.interface";
 import { TransactionType } from "./transaction-type-interface";
 
 export interface Transaction {

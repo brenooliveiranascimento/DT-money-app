@@ -14,10 +14,10 @@ import {
   useState,
 } from "react";
 import { useAuthContext } from "./auth.context";
-import { useSnackbarContext } from "./snackbacr.context";
+import { useSnackbarContext } from "./snackbar.context";
 import { TotalTransactions } from "@/shared/interfaces/total-transactions";
 import { CreateTransactionInterface } from "@/shared/interfaces/https/create-transaction-params";
-import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
+import { TransactionCategory } from "@/shared/interfaces/transaction-category.interface";
 import { UpdateTransactionInterface } from "@/shared/interfaces/https/update-transaction-params";
 
 export interface IFilterParams {
@@ -57,7 +57,7 @@ type TransactionTextType = {
   resetFilter: () => void;
 };
 
-const filterInitailData = {
+const filterInitialData = {
   categoryIds: {},
   from: undefined,
   to: undefined,
@@ -120,8 +120,8 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
 
   const categoryIds = useMemo(() => {
     return Object.entries(filters.categoryIds)
-      .filter(([key, value]) => value)
-      .map(([key, value]) => Number(key));
+      .filter(([_, value]) => value)
+      .map(([key]) => Number(key));
   }, [filters]);
 
   const refreshTransactions = useCallback(async () => {
@@ -198,7 +198,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   };
 
   const resetFilter = () => {
-    setFilters(filterInitailData);
+    setFilters(filterInitialData);
     fetchTransactions({ page: 1 });
   };
 
@@ -217,7 +217,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         totalTransactions,
         handleDelete,
         createTransaction,
-        fetchCategories,  
+        fetchCategories,
         categories,
         updateTransaction,
         filters,

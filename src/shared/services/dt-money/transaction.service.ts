@@ -5,7 +5,7 @@ import {
   GetTransactionsResponse,
 } from "@/shared/interfaces/https/get-transactions-response";
 import { UpdateTransactionInterface } from "@/shared/interfaces/https/update-transaction-params";
-import { TransactionCategory } from "@/shared/interfaces/transaction-categoty.interface";
+import { TransactionCategory } from "@/shared/interfaces/transaction-category.interface";
 import qs from "qs";
 
 export const getTransactions = async (

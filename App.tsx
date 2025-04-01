@@ -2,7 +2,7 @@ import NavigatorRoutes from "@/routes";
 import "./src/styles/global.css";
 import { StatusBar } from "expo-status-bar";
 import { colors } from "@/styles/colors";
-import { SnackbarContextProvider } from "@/context/snackbacr.context";
+import { SnackbarContextProvider } from "@/context/snackbar.context";
 import { AuthContextProvider } from "@/context/auth.context";
 import { TransactionContextProvider } from "@/context/transaction.context";
 import { BottomSheetProvider } from "@/context/bottomsheet.context";

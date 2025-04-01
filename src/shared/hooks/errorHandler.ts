@@ -1,4 +1,4 @@
-import { useSnackbarContext } from "@/context/snackbacr.context";
+import { useSnackbarContext } from "@/context/snackbar.context";
 import { AppError } from "../helpers/AppError";
 
 export const useErrorHandler = () => {
