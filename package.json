@@ -28,8 +28,6 @@
     "react-native": "0.76.7",
     "react-native-currency-input": "^1.1.1",
     "react-native-gesture-handler": "^2.20.2",
-    "react-native-mask-input": "^1.2.3",
-    "react-native-mask-text": "^0.14.2",
     "react-native-reanimated": "3.16.2",
     "react-native-safe-area-context": "^5.3.0",
     "react-native-screens": "^4.9.2",
