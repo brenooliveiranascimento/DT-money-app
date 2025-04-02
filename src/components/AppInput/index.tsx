@@ -62,7 +62,7 @@ export const AppInput = <T extends FieldValues>({
               onPress={() => inputRef.current?.focus()}
               activeOpacity={1}
               className={clsx(
-                "flex-row items-center justify-between border-b px-3 py-2 h-16 border-gray-600"
+                "flex-row items-center justify-between border-b-[1px] px-3 py-2 h-16 border-gray-600"
               )}
             >
               {leftIconName && (

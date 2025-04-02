@@ -47,7 +47,7 @@ export const RegisterForm = () => {
 
   return (
     <>
-      <AppInput
+      <AppInput<FormRegister>
         leftIconName="person"
         placeholder="Seu nome"
         label="Seu nome completo"
@@ -77,7 +77,7 @@ export const RegisterForm = () => {
 
       <AppInput<FormRegister>
         control={control}
-        name="password"
+        name="confirmPassword"
         leftIconName="lock-outline"
         placeholder="Confirme sua senha"
         label="SENHA"
