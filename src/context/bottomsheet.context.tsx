@@ -59,7 +59,6 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         ref={bottomSheetRef}
         enablePanDownToClose
         onChange={handleSheetChanges}
-        index={-1}
         backgroundStyle={{
           backgroundColor: colors.gray["1000"],
           borderTopLeftRadius: 32,
