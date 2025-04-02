@@ -33,7 +33,7 @@ export const TransactionCard: FC<Props> = ({ transaction }) => {
       renderRightActions={() => <RightAction transaction={transaction} />}
       renderLeftActions={() => <LeftAction transaction={transaction} />}
     >
-      <View className="h-[140] bg-gray-900 rounded-[6] p-6">
+      <View className="h-[140] bg-background-tertiary rounded-[6] p-6">
         <Text className="text-white text-base">{transaction.description}</Text>
         <Text
           className={`${

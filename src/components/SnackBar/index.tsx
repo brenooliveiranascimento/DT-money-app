@@ -9,7 +9,9 @@ export const SnackBar = () => {
   }
 
   const bgColor = `${
-    type === "SUCCESS" ? "bg-accent-brand-dark" : "bg-accent-red-dark"
+    type === "SUCCESS"
+      ? "bg-accent-brand-background-primary"
+      : "bg-accent-red-background-primary"
   }`;
 
   return (

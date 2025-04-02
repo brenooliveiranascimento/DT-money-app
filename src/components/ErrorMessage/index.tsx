@@ -9,10 +9,10 @@ export const ErrorMessage: FC<PropsWithChildren> = ({ children }) => {
       <MaterialIcons
         name="error-outline"
         size={16}
-        color={colors["accent-red-dark"]}
+        color={colors["accent-red-background-primary"]}
         className="mr-1"
       />
-      <Text className="text-accent-red-dark">{children}</Text>
+      <Text className="text-accent-red-background-primary">{children}</Text>
     </View>
   );
 };

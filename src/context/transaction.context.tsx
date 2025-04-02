@@ -55,6 +55,7 @@ type TransactionTextType = {
   filters: Filters;
   handleCategoryFilter: (categoryId: number) => void;
   resetFilter: () => void;
+  pagination: Pagination;
 };
 
 const filterInitialData = {
@@ -92,6 +93,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     perPage: 15,
+    totalRows: 0,
   });
 
   const handleFilter = ({ key, value }: SearchFilterParams) => {
@@ -145,6 +147,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     setPagination({
       ...pagination,
       page,
+      totalRows: response.totalRows,
     });
     setTotalPages(response.totalPages);
     setRefreshLoading(false);
@@ -174,6 +177,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
       setPagination({
         ...pagination,
         page,
+        totalRows: response.totalRows,
       });
       setTotalPages(response.totalPages);
 
@@ -223,6 +227,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
         filters,
         handleCategoryFilter,
         resetFilter,
+        pagination,
       }}
     >
       {children}

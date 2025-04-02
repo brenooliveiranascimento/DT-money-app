@@ -60,14 +60,15 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
         enablePanDownToClose
         onChange={handleSheetChanges}
         backgroundStyle={{
-          backgroundColor: colors.gray["1000"],
+          backgroundColor: colors["background-secondary"],
           borderTopLeftRadius: 32,
           borderTopRightRadius: 32,
           elevation: 9,
         }}
         style={{ zIndex: 2 }}
+        index={-1}
       >
-        <BottomSheetScrollView className="flex-1 bg-gray-1000 min-h-[400]">
+        <BottomSheetScrollView className="flex-1 bg-background-secondary min-h-[400]">
           {content}
         </BottomSheetScrollView>
       </BottomSheet>

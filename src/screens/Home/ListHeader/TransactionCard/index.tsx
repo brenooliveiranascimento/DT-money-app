@@ -40,7 +40,43 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({
   const lastTransaction = useMemo(() => {
     return transactions.find(({ type: t }) => t.id === type);
   }, [transactions]);
-  console.log(lastTransaction, type);
+
+  const renderDateInfo = () => {
+    if (lastTransaction) {
+      return (
+        <Text className="text-gray-700 text-base">
+          {format(
+            lastTransaction.createdAt,
+            `'Última ${
+              type === TransactionTypes.EXPENSE ? "saída" : "entrada"
+            } em' d 'de' MMMM`,
+            { locale: ptBR }
+          )}
+        </Text>
+      );
+    }
+
+    if (type === "total") {
+      return (
+        <Text className="text-white text-base">
+          {filters.from && filters.to
+            ? `${format(filters.from, "d MMMM", { locale: ptBR })} até ${format(
+                filters.to,
+                "d MMMM",
+                { locale: ptBR }
+              )}`
+            : "Todo período"}
+        </Text>
+      );
+    }
+
+    return (
+      <Text className="text-gray-700 text-base">
+        Sem movimentações encontradas
+      </Text>
+    );
+  };
+
   return (
     <View
       className={`bg-${bgColor} min-w-[280] rounded-[6] px-8 py-6 mr-6 justify-between`}
@@ -49,30 +85,11 @@ export const TransactionCard: React.FC<TransactionCardProps> = ({
         <Text className="text-white text-base ">{label}</Text>
         <MaterialIcons name={ICONS[type]} color={COLORS[type]} size={26} />
       </View>
-      <View className="">
+      <View>
         <Text className="text-2xl text-gray-400 font-bold">
           R$ {amount.toFixed(2).replace(".", ",")}
         </Text>
-        {!lastTransaction && (
-          <Text className="text-gray-700 text-base">
-            {type !== "total"
-              ? Boolean(filters.from && filters.to)
-                ? `De ${filters.from} há ${filters.from}`
-                : "Nenhuma transação encontrada"
-              : "Todo período"}
-          </Text>
-        )}
-        {lastTransaction && type !== "total" && (
-          <Text className="text-gray-700 text-base">
-            {format(
-              lastTransaction.createdAt,
-              `'Última ${
-                type === TransactionTypes.EXPENSE ? "saída" : "entrada"
-              } em' d 'de' MMMM`,
-              { locale: ptBR }
-            )}
-          </Text>
-        )}
+        {renderDateInfo()}
       </View>
     </View>
   );

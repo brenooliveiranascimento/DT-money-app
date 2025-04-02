@@ -97,7 +97,7 @@ export const EditTransactionBottomsheet: FC<Props> = ({
       </View>
       <View className="flex-1 mt-8 mb-8">
         <TextInput
-          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
+          className="text-white text-lg h-[50] bg-background-primary my-2 rounded-[6] pl-4"
           placeholder="Descrição"
           placeholderTextColor={colors.gray["700"]}
           value={transaction.description}
@@ -115,7 +115,7 @@ export const EditTransactionBottomsheet: FC<Props> = ({
           placeholderTextColor={colors.gray["700"]}
           precision={2}
           minValue={0}
-          className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4"
+          className="text-white text-lg h-[50] bg-background-primary my-2 rounded-[6] pl-4"
         />
         {validationErrors?.value && (
           <ErrorMessage>{validationErrors.value}</ErrorMessage>

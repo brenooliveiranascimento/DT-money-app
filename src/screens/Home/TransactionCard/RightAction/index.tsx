@@ -46,7 +46,7 @@ export const RightAction: FC<Props> = ({ transaction }) => {
   return (
     <>
       <TouchableOpacity
-        className="h-[140] bg-accent-red-dark w-[80] rounded-r-[6] items-center justify-center"
+        className="h-[140] bg-accent-red-background-primary w-[80] rounded-r-[6] items-center justify-center"
         onPress={showModal}
         activeOpacity={0.8}
       >
@@ -64,7 +64,7 @@ export const RightAction: FC<Props> = ({ transaction }) => {
             <TouchableWithoutFeedback onPress={hideModal}>
               <View className="flex-1 items-center justify-center bg-black/50">
                 <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
-                  <View className="m-5 bg-gray-1000 rounded-[16] p-8 items-center shadow-lg w-[90%] h-[322] z-9">
+                  <View className="m-5 bg-background-secondary rounded-[16] p-8 items-center shadow-lg w-[90%] h-[322] z-9">
                     <View className="w-full content-between flex-row justify-between items-center border-b border-gray-300 pb-6">
                       <View className="flex-row fap-6 items-center">
                         <MaterialIcons
@@ -96,13 +96,13 @@ export const RightAction: FC<Props> = ({ transaction }) => {
                     <View className="flex-row justify-end gap-4 p-6 pb-0 w-full items-end pr-0">
                       <TouchableOpacity
                         onPress={hideModal}
-                        className="w-[100] bg-none border-2 border-green items-center justify-center p-3 rounded-[6]"
+                        className="w-[100] bg-none border-2 border-accent-brand items-center justify-center p-3 rounded-[6]"
                       >
-                        <Text className="text-green">Cancelar</Text>
+                        <Text className="text-accent-brand">Cancelar</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={deleteTransaction}
-                        className="w-[100] bg-accent-red-dark items-center justify-center p-3 rounded-[6]"
+                        className="w-[100] bg-accent-red-background-primary items-center justify-center p-3 rounded-[6]"
                       >
                         {loading ? (
                           <ActivityIndicator />

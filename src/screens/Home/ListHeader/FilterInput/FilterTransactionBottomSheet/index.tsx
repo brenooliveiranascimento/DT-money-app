@@ -42,14 +42,16 @@ const FiltroTransacoes = () => {
       <View className="flex-row w-full gap-4 mb-4 mt-8">
         <TouchableOpacity
           onPress={resetFilter}
-          className=" border-green bg-none border-2 py-4 rounded-[8] items-center flex-1"
+          className=" border-accent-brand bg-none border-2 py-4 rounded-[8] items-center flex-1"
         >
-          <Text className="text-green font-medium text-lg">Limpar Filtros</Text>
+          <Text className="text-accent-brand font-medium text-lg">
+            Limpar Filtros
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={getTranscations}
-          className="bg-green border-none py-4 rounded-[8] items-center flex-1"
+          className="bg-accent-brand border-none py-4 rounded-[8] items-center flex-1"
         >
           <Text className="text-white font-medium text-lg">Filtrar</Text>
         </TouchableOpacity>

@@ -64,7 +64,7 @@ const Home = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-1000 w-full">
+    <SafeAreaView className="flex-1 bg-background-secondary w-full">
       <FlatList
         data={transactions}
         className="flex-1"

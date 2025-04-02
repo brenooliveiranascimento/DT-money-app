@@ -42,7 +42,7 @@ export default function SelectModal({
     <>
       <TouchableOpacity
         onPress={openModal}
-        className="text-white text-lg h-[50] bg-dark my-2 rounded-[6] pl-4 justify-center"
+        className="text-white text-lg h-[50] bg-background-primary my-2 rounded-[6] pl-4 justify-center"
       >
         <Text
           className={`${selected ? "text-white" : "text-gray-700"} text-lg`}

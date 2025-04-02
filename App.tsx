@@ -20,7 +20,7 @@ export default function App() {
               <StatusBar
                 style="light"
                 translucent={false}
-                backgroundColor={colors.dark}
+                backgroundColor={colors["background-primary"]}
               />
               <SnackBar />
             </BottomSheetProvider>

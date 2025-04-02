@@ -6,6 +6,7 @@ export type OrderDirection = "ASC" | "asc" | "DESC" | "desc";
 export interface Pagination {
   page: number;
   perPage: number;
+  totalRows?: number;
 }
 
 export interface Filters {

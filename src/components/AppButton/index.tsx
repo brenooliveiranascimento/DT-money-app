@@ -18,7 +18,7 @@ export const AppButton: FC<PropsWithChildren<AppButtonParams>> = ({
   ...rest
 }) => {
   const baseColor = `${
-    mode === "fill" ? "text-white" : "text-green"
+    mode === "fill" ? "text-white" : "text-accent-brand"
   } font-normal`;
 
   const buttonClassNames: string[] = [
@@ -37,10 +37,10 @@ export const AppButton: FC<PropsWithChildren<AppButtonParams>> = ({
   }
 
   if (mode === "fill") {
-    buttonClassNames.push("bg-green");
+    buttonClassNames.push("bg-accent-brand");
   } else {
     buttonClassNames.push("bg-none border-[1px]");
-    buttonClassNames.push("border-green");
+    buttonClassNames.push("border-accent-brand");
   }
 
   return (
@@ -48,7 +48,7 @@ export const AppButton: FC<PropsWithChildren<AppButtonParams>> = ({
       <Text className={`${baseColor} text-base`}>{children}</Text>
       {iconName && (
         <MaterialIcons
-          color={mode === "fill" ? colors.white : colors.green}
+          color={mode === "fill" ? colors.white : colors["accent-brand"]}
           name={iconName}
           size={24}
         />

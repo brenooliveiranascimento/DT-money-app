@@ -51,8 +51,8 @@ export const AppInput = <T extends FieldValues>({
               <Text
                 className={clsx(
                   "mb-2 mt-3 text-base",
-                  error && "text-red-dark",
-                  isFocused || isFilled ? "text-green" : "text-gray-600"
+                  error && "text-red-background-primary",
+                  isFocused || isFilled ? "text-accent-brand" : "text-gray-600"
                 )}
               >
                 {label}
@@ -69,9 +69,9 @@ export const AppInput = <T extends FieldValues>({
                 <MaterialIcons
                   color={clsx(
                     error
-                      ? colors["accent-red-dark"]
+                      ? colors["accent-red-background-primary"]
                       : isFocused || isFilled
-                      ? colors.green
+                      ? colors["accent-brand"]
                       : colors.gray["600"]
                   )}
                   className="mr-2"
@@ -87,7 +87,7 @@ export const AppInput = <T extends FieldValues>({
                 onEndEditing={checkFocus}
                 className="flex-1 text-gray-500 text-base"
                 secureTextEntry={showText}
-                cursorColor={colors.green}
+                cursorColor={colors["accent-brand"]}
                 onChangeText={onChange}
                 value={value}
                 {...rest}

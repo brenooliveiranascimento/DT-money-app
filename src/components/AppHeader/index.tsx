@@ -10,7 +10,7 @@ export const AppHeader = () => {
   const { handleLogout } = useAuthContext();
 
   return (
-    <View className="w-full p-8 flex-row justify-between items-center bg-dark">
+    <View className="w-full p-8 flex-row justify-between items-center bg-background-primary">
       <View>
         <Image
           source={require("@/assets/images/Logo.png")}
@@ -26,7 +26,7 @@ export const AppHeader = () => {
       </View>
       <TouchableOpacity
         onPress={() => openBottomSheet(<NewTransaction />)}
-        className="bg-green w-[130px] items-center justify-center rounded-xl h-[50px]"
+        className="bg-accent-brand w-[130px] items-center justify-center rounded-xl h-[50px]"
       >
         <Text className="text-white font-bold text-sm">Nova transação</Text>
       </TouchableOpacity>

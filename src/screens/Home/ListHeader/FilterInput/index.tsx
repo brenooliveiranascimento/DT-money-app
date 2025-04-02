@@ -7,8 +7,13 @@ import { useBottomSheetContext } from "@/context/bottomsheet.context";
 import FiltroTransacoes from "./FilterTransactionBottomSheet";
 
 export const FilterInput = () => {
-  const { searchFilter, setSearchFilter, transactions, fetchTransactions } =
-    useTransactionContext();
+  const {
+    searchFilter,
+    setSearchFilter,
+    transactions,
+    fetchTransactions,
+    pagination,
+  } = useTransactionContext();
 
   const { openBottomSheet } = useBottomSheetContext();
   const inputRef = useRef<TextInput>(null);
@@ -34,7 +39,7 @@ export const FilterInput = () => {
           Transações
         </Text>
         <Text className="text-gray-700 text-base mt-4 mb-3">
-          {transactions.length} {transactions.length === 1 ? "Item" : "itens"}
+          {pagination.totalRows} {pagination.totalRows === 1 ? "Item" : "itens"}
         </Text>
       </View>
       <TouchableOpacity
@@ -43,7 +48,7 @@ export const FilterInput = () => {
         className={`flex-row items-center justify-between h-16`}
       >
         <TextInput
-          className="h-[50] text-white w-full bg-dark text-lg pl-4"
+          className="h-[50] text-white w-full bg-background-primary text-lg pl-4"
           value={text}
           onChangeText={setText}
           placeholderTextColor={colors.gray["600"]}

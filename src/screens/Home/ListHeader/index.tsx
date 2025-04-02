@@ -12,7 +12,7 @@ export const ListHeader = () => {
     <View>
       <AppHeader />
       <View className="h-[150] w-full">
-        <View className="bg-dark h-[50]" />
+        <View className="bg-background-primary h-[50]" />
         <ScrollView
           showsHorizontalScrollIndicator={false}
           horizontal
@@ -21,19 +21,19 @@ export const ListHeader = () => {
           <TransactionCard
             type={TransactionTypes.REVENUE}
             label="Entrada"
-            bgColor="gray-900"
+            bgColor="background-tertiary"
             amount={totalTransactions.revenue}
           />
           <TransactionCard
             type={TransactionTypes.EXPENSE}
             label="Saída"
-            bgColor="gray-900"
+            bgColor="background-tertiary"
             amount={totalTransactions.expense}
           />
           <TransactionCard
             type="total"
             label="Total"
-            bgColor="accent-brand-dark"
+            bgColor="accent-brand-background-primary"
             amount={totalTransactions.total}
           />
         </ScrollView>

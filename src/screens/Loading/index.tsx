@@ -29,7 +29,7 @@ const Loading: FC<Props> = ({ setLoading }) => {
   }, []);
 
   return (
-    <SafeAreaView className="bg-dark items-center justify-center flex-1">
+    <SafeAreaView className="bg-background-primary items-center justify-center flex-1">
       <>
         <Image
           source={require("@/assets/images/Logo.png")}
