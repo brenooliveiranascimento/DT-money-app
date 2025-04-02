@@ -30,7 +30,7 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
 
   const handleLogout = async () => {
-    await AsyncStorage.removeItem("dt-money-user");
+    await AsyncStorage.clear();
     setToken(null);
     setUser(null);
   };
@@ -46,9 +46,13 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleRegister = async (formData: FormRegister) => {
-    const response = await authApi.registerUser(formData);
-    setToken(response.token);
-    setUser(response.user);
+    const { token, user } = await authApi.registerUser(formData);
+    await AsyncStorage.setItem(
+      "dt-money-user",
+      JSON.stringify({ user, token })
+    );
+    setToken(token);
+    setUser(user);
   };
 
   const restoreUserSession = async () => {
