@@ -21,12 +21,12 @@ export const AppHeader = () => {
           className="flex-row items-center gap-2 mt-2"
         >
           <MaterialIcons name="logout" color={colors.gray["700"]} size={15} />
-          <Text className="text-gray-700 text-base ">Sair da conta</Text>
+          <Text className="text-gray-700 text-base">Sair da conta</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity
         onPress={() => openBottomSheet(<NewTransaction />)}
-        className="bg-green w-[130] items-center justify-center rounded-xl h-[50]"
+        className="bg-green w-[130px] items-center justify-center rounded-xl h-[50px]"
       >
         <Text className="text-white font-bold text-sm">Nova transação</Text>
       </TouchableOpacity>

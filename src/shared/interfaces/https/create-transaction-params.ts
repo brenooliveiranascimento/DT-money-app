@@ -1,5 +1,5 @@
 export interface CreateTransactionInterface {
-  description?: string;
+  description: string;
   typeId: number;
   categoryId: number;
   value: number;

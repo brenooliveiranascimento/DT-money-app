@@ -34,16 +34,14 @@ export const TransactionCard: FC<Props> = ({ transaction }) => {
       renderLeftActions={() => <LeftAction transaction={transaction} />}
     >
       <View className="h-[140] bg-gray-900 rounded-[6] p-6">
-        <Text className="text-white text-base">
-          {transaction.category.name}
-        </Text>
+        <Text className="text-white text-base">{transaction.description}</Text>
         <Text
           className={`${
             isRevenue ? "text-accent-brand-light" : "text-accent-red"
           } text-2xl font-bold mt-2`}
         >
-          {!isRevenue && "-"}
-          {transaction.value.toFixed(2).replace(".", ",")}
+          {!isRevenue && "- "}
+          R$ {transaction.value.toFixed(2).replace(".", ",")}
         </Text>
         <View className="flex-row w-full justify-between items-center">
           <View className="items-center flex-row mt-3">

@@ -87,7 +87,7 @@ export const NewTransaction = () => {
   return (
     <View className="px-8 py-5">
       <View className="w-full flex-row justify-between items-center">
-        <Text className="text-white text-xl font-bold">Editar transação</Text>
+        <Text className="text-white text-xl font-bold">Nova transação</Text>
         <MaterialIcons name="close" size={20} color={colors.gray["700"]} />
       </View>
       <View className="flex-1 mt-8 mb-8">
@@ -98,6 +98,9 @@ export const NewTransaction = () => {
           value={transaction.description}
           onChangeText={setDescription}
         />
+        {validationErrors?.description && (
+          <ErrorMessage>{validationErrors.description}</ErrorMessage>
+        )}
         <CurrencyInput
           value={transaction.value}
           onChangeValue={setValue}

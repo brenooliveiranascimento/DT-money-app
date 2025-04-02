@@ -6,7 +6,7 @@ import { AuthHeader } from "@/components/Authheader";
 const Register = () => {
   return (
     <DismissKeyboardView>
-      <View className="flex-1 w-[90%] self-center">
+      <View className="flex-1 w-[82%] self-center">
         <AuthHeader />
         <RegisterForm />
       </View>

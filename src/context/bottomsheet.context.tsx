@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View, TouchableWithoutFeedback } from "react-native";
 import { colors } from "@/styles/colors";
 
 interface BottomSheetContextType {

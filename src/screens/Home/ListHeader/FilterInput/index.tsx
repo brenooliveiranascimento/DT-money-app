@@ -29,11 +29,11 @@ export const FilterInput = () => {
 
   return (
     <View className="mb-4 w-[90%] self-center">
-      <View className="w-full flex-row justify-between">
+      <View className="w-full flex-row justify-between items-center">
         <Text className="text-white text-xl font-bold mt-4 mb-3">
           Transações
         </Text>
-        <Text className="text-gray-700 text-xl mt-4 mb-3">
+        <Text className="text-gray-700 text-base mt-4 mb-3">
           {transactions.length} {transactions.length === 1 ? "Item" : "itens"}
         </Text>
       </View>
@@ -48,7 +48,7 @@ export const FilterInput = () => {
           onChangeText={setText}
           placeholderTextColor={colors.gray["600"]}
           ref={inputRef}
-          placeholder="Busque uma transsação"
+          placeholder="Busque uma transação"
         />
         <TouchableOpacity
           onPress={() => openBottomSheet(<FiltroTransacoes />)}
