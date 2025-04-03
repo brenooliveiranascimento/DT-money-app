@@ -19,7 +19,7 @@ export const LeftAction: FC<Props> = ({ transaction }) => {
       onPress={() =>
         openBottomSheet(
           <EditTransactionBottomsheet transactionToUpdate={transaction} />,
-          0
+          1
         )
       }
     >
