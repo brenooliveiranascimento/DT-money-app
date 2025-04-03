@@ -1,4 +1,10 @@
-import { ActivityIndicator, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
 import SelectModal from "@/components/SelectCategory";
@@ -86,10 +92,13 @@ export const NewTransaction = () => {
 
   return (
     <View className="px-8 py-5">
-      <View className="w-full flex-row justify-between items-center">
+      <TouchableOpacity
+        onPress={closeBottomSheet}
+        className="w-full flex-row justify-between items-center"
+      >
         <Text className="text-white text-xl font-bold">Nova transação</Text>
         <MaterialIcons name="close" size={20} color={colors.gray["700"]} />
-      </View>
+      </TouchableOpacity>
       <View className="flex-1 mt-8 mb-8">
         <TextInput
           className="text-white text-lg h-[50] bg-background-primary my-2 rounded-[6] pl-4"

@@ -25,7 +25,7 @@ export const AppHeader = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        onPress={() => openBottomSheet(<NewTransaction />)}
+        onPress={() => openBottomSheet(<NewTransaction />, 0)}
         className="bg-accent-brand w-[130px] items-center justify-center rounded-xl h-[50px]"
       >
         <Text className="text-white font-bold text-sm">Nova transação</Text>

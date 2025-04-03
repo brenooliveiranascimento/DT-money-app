@@ -10,7 +10,7 @@ import { View, TouchableWithoutFeedback } from "react-native";
 import { colors } from "@/styles/colors";
 
 interface BottomSheetContextType {
-  openBottomSheet: (content: React.ReactNode) => void;
+  openBottomSheet: (content: React.ReactNode, index: number) => void;
   closeBottomSheet: () => void;
 }
 
@@ -24,19 +24,26 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [content, setContent] = useState<React.ReactNode | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [index, setIndex] = useState(-1);
+  const snapPoints = ["70%", "90%"];
 
-  const openBottomSheet = useCallback((newContent: React.ReactNode) => {
-    setContent(newContent);
-    setIsOpen(true);
-    requestAnimationFrame(() => {
-      bottomSheetRef.current?.expand();
-    });
-  }, []);
+  const openBottomSheet = useCallback(
+    (newContent: React.ReactNode, index: number) => {
+      setIndex(index);
+      setContent(newContent);
+      setIsOpen(true);
+      requestAnimationFrame(() => {
+        bottomSheetRef.current?.snapToIndex(index);
+      });
+    },
+    []
+  );
 
   const closeBottomSheet = useCallback(() => {
     bottomSheetRef.current?.close();
     setIsOpen(false);
     setContent(null);
+    setIndex(-1);
   }, []);
 
   const handleSheetChanges = useCallback((index: number) => {
@@ -66,7 +73,8 @@ export const BottomSheetProvider: React.FC<{ children: React.ReactNode }> = ({
           elevation: 9,
         }}
         style={{ zIndex: 2 }}
-        index={-1}
+        snapPoints={snapPoints}
+        index={index}
       >
         <BottomSheetScrollView className="flex-1 bg-background-secondary min-h-[400]">
           {content}

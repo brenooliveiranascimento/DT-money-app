@@ -56,7 +56,7 @@ export const FilterInput = () => {
           placeholder="Busque uma transação"
         />
         <TouchableOpacity
-          onPress={() => openBottomSheet(<FiltroTransacoes />)}
+          onPress={() => openBottomSheet(<FiltroTransacoes />, 1)}
           className="absolute right-0"
         >
           <MaterialIcons

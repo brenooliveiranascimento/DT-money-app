@@ -50,7 +50,7 @@ export const RegisterForm = () => {
       <AppInput<FormRegister>
         leftIconName="person"
         placeholder="Seu nome"
-        label="Seu nome completo"
+        label="NOME"
         autoComplete="name"
         control={control}
         name="name"
