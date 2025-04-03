@@ -15,19 +15,17 @@ export const LeftAction: FC<Props> = ({ transaction }) => {
   const { openBottomSheet } = useBottomSheetContext();
 
   return (
-    <>
-      <Pressable
-        onPress={() =>
-          openBottomSheet(
-            <EditTransactionBottomsheet transactionToUpdate={transaction} />,
-            0
-          )
-        }
-      >
-        <View className="h-[140] bg-accent-blue-background-primary w-[80] rounded-l-[6] items-center justify-center z-99">
-          <MaterialIcons color={colors.white} name="edit" size={30} />
-        </View>
-      </Pressable>
-    </>
+    <Pressable
+      onPress={() =>
+        openBottomSheet(
+          <EditTransactionBottomsheet transactionToUpdate={transaction} />,
+          0
+        )
+      }
+    >
+      <View className="h-[140] bg-accent-blue-background-primary w-[80] rounded-l-[6] items-center justify-center z-99">
+        <MaterialIcons color={colors.white} name="edit" size={30} />
+      </View>
+    </Pressable>
   );
 };
