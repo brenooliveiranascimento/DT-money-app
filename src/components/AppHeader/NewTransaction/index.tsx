@@ -20,6 +20,8 @@ import { useBottomSheetContext } from "@/context/bottomsheet.context";
 import { CreateTransactionInterface } from "@/shared/interfaces/https/create-transaction-params";
 import CurrencyInput from "react-native-currency-input";
 
+type ValidationErrorsTypes = Record<keyof CreateTransactionInterface, string>;
+
 export const NewTransaction = () => {
   const { handleError } = useErrorHandler();
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ export const NewTransaction = () => {
   const { closeBottomSheet } = useBottomSheetContext();
 
   const [validationErrors, setValidationErrors] =
-    useState<Record<keyof CreateTransactionInterface, string>>();
+    useState<ValidationErrorsTypes>();
 
   const [transaction, setTransaction] = useState<CreateTransactionInterface>({
     typeId: 0,
@@ -37,21 +39,10 @@ export const NewTransaction = () => {
     categoryId: 0,
   });
 
-  const setType = (typeId: number) =>
-    setTransaction((prev) => ({ ...prev, typeId }));
-
-  const setCategory = (categoryId: number) =>
-    setTransaction((prev) => ({ ...prev, categoryId }));
-
-  const setDescription = (description: string) =>
-    setTransaction((prev) => ({ ...prev, description }));
-
-  const setValue = (value: number) => {
-    setTransaction((prev) => ({
-      ...prev,
-      value,
-    }));
-  };
+  const setTransactionData = (
+    key: keyof CreateTransactionInterface,
+    value: number | string | null
+  ) => setTransaction((prev) => ({ ...prev, [key]: value }));
 
   const handleCreateTransaction = async () => {
     try {
@@ -74,7 +65,7 @@ export const NewTransaction = () => {
       closeBottomSheet();
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        const errors = {} as Record<keyof CreateTransactionInterface, string>;
+        const errors = {} as ValidationErrorsTypes;
 
         error.inner.forEach((err) => {
           if (err.path) {
@@ -105,14 +96,14 @@ export const NewTransaction = () => {
           placeholder="Descrição"
           placeholderTextColor={colors.gray["700"]}
           value={transaction.description}
-          onChangeText={setDescription}
+          onChangeText={(text) => setTransactionData("description", text)}
         />
         {validationErrors?.description && (
           <ErrorMessage>{validationErrors.description}</ErrorMessage>
         )}
         <CurrencyInput
           value={transaction.value}
-          onChangeValue={setValue}
+          onChangeValue={(value) => setTransactionData("value", value)}
           prefix="R$ "
           delimiter="."
           separator=","
@@ -126,7 +117,9 @@ export const NewTransaction = () => {
           <ErrorMessage>{validationErrors.value}</ErrorMessage>
         )}
         <SelectModal
-          onSelect={setCategory}
+          onSelect={(categoryId) =>
+            setTransactionData("categoryId", categoryId)
+          }
           selectedCategory={transaction.categoryId}
         />
         {validationErrors?.categoryId && (
@@ -134,7 +127,7 @@ export const NewTransaction = () => {
         )}
         <TransactionTypeSelector
           typeId={transaction.typeId}
-          setTransactionType={setType}
+          setTransactionType={(typeId) => setTransactionData("typeId", typeId)}
         />
         {validationErrors?.typeId && (
           <ErrorMessage>{validationErrors.typeId}</ErrorMessage>

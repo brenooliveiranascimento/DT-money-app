@@ -9,7 +9,7 @@ export const ListHeader = () => {
   const { totalTransactions } = useTransactionContext();
 
   return (
-    <View>
+    <>
       <AppHeader />
       <View className="h-[150] w-full">
         <View className="bg-background-primary h-[50]" />
@@ -39,6 +39,6 @@ export const ListHeader = () => {
         </ScrollView>
       </View>
       <FilterInput />
-    </View>
+    </>
   );
 };

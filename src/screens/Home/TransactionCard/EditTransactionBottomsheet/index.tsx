@@ -1,7 +1,7 @@
 import { ActivityIndicator, Text, TextInput, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Transaction } from "@/shared/interfaces/transaction-interface";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { colors } from "@/styles/colors";
 import { useBottomSheetContext } from "@/context/bottomsheet.context";
 import { useErrorHandler } from "@/shared/hooks/errorHandler";
@@ -39,18 +39,10 @@ export const EditTransactionBottomsheet: FC<Props> = ({
     description: transactionToUpdate.description,
   });
 
-  const setType = (typeId: number) =>
-    setTransaction((prev) => ({ ...prev, typeId }));
-
-  const setCategory = (categoryId: number) =>
-    setTransaction((prev) => ({ ...prev, categoryId }));
-
-  const setValue = (value: number) => {
-    setTransaction((prev) => ({
-      ...prev,
-      value,
-    }));
-  };
+  const setTransactionData = (
+    key: keyof UpdateTransactionInterface,
+    value: number | string | null
+  ) => setTransaction((prev) => ({ ...prev, [key]: value }));
 
   const handleCreateTransaction = async () => {
     try {
@@ -82,7 +74,7 @@ export const EditTransactionBottomsheet: FC<Props> = ({
         });
         setValidationErrors(errors);
       } else {
-        handleError(error, "Falha ao criar transação");
+        handleError(error, "Falha ao atualizar transação");
       }
     } finally {
       setLoading(false);
@@ -101,13 +93,14 @@ export const EditTransactionBottomsheet: FC<Props> = ({
           placeholder="Descrição"
           placeholderTextColor={colors.gray["700"]}
           value={transaction.description}
-          onChangeText={(text) =>
-            setTransaction((prev) => ({ ...prev, description: text }))
-          }
+          onChangeText={(text) => setTransactionData("description", text)}
         />
+        {validationErrors?.description && (
+          <ErrorMessage>{validationErrors.description}</ErrorMessage>
+        )}
         <CurrencyInput
           value={transaction.value}
-          onChangeValue={setValue}
+          onChangeValue={(value) => setTransactionData("value", value)}
           prefix="R$ "
           delimiter="."
           separator=","
@@ -121,7 +114,9 @@ export const EditTransactionBottomsheet: FC<Props> = ({
           <ErrorMessage>{validationErrors.value}</ErrorMessage>
         )}
         <SelectModal
-          onSelect={setCategory}
+          onSelect={(categoryId) =>
+            setTransactionData("categoryId", categoryId)
+          }
           selectedCategory={transaction.categoryId}
         />
         {validationErrors?.categoryId && (
@@ -129,7 +124,7 @@ export const EditTransactionBottomsheet: FC<Props> = ({
         )}
         <TransactionTypeSelector
           typeId={transaction.typeId}
-          setTransactionType={setType}
+          setTransactionType={(typeId) => setTransactionData("typeId", typeId)}
         />
         {validationErrors?.typeId && (
           <ErrorMessage>{validationErrors.typeId}</ErrorMessage>

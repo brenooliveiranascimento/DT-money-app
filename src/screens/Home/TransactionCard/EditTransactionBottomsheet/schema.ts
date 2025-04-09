@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 export const transactionSchema = Yup.object().shape({
-  description: Yup.string().optional(),
+  description: Yup.string().required("Descrição é obrigatória"),
   value: Yup.number()
     .min(0.01, "Deve ser no minimo 1")
     .required("Valor é obrigatório"),
