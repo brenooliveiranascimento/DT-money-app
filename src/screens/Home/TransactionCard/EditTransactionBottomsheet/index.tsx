@@ -1,7 +1,7 @@
 import { ActivityIndicator, Text, TextInput, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Transaction } from "@/shared/interfaces/transaction-interface";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { colors } from "@/styles/colors";
 import { useBottomSheetContext } from "@/context/bottomsheet.context";
 import { useErrorHandler } from "@/shared/hooks/errorHandler";
@@ -14,6 +14,8 @@ import SelectModal from "@/components/SelectCategory";
 import TransactionTypeSelector from "@/components/SelectType";
 import { AppButton } from "@/components/AppButton";
 import CurrencyInput from "react-native-currency-input";
+
+type ValidationErrorsTypes = Record<keyof UpdateTransactionInterface, string>;
 
 interface Props {
   transactionToUpdate: Transaction;
@@ -29,7 +31,7 @@ export const EditTransactionBottomsheet: FC<Props> = ({
   const { closeBottomSheet } = useBottomSheetContext();
 
   const [validationErrors, setValidationErrors] =
-    useState<Record<keyof UpdateTransactionInterface, string>>();
+    useState<ValidationErrorsTypes>();
 
   const [transaction, setTransaction] = useState<UpdateTransactionInterface>({
     categoryId: transactionToUpdate.categoryId,
@@ -65,7 +67,7 @@ export const EditTransactionBottomsheet: FC<Props> = ({
       closeBottomSheet();
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
-        const errors = {} as Record<keyof UpdateTransactionInterface, string>;
+        const errors = {} as ValidationErrorsTypes;
 
         error.inner.forEach((err) => {
           if (err.path) {
