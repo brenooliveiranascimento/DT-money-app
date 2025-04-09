@@ -154,7 +154,7 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
   }, [pagination, notify, user, filters, searchText]);
 
   const fetchTransactions = useCallback(
-    async ({ page = 1 }) => {
+    async ({ page = 1, reset = false }) => {
       if (!user) return;
       setLoading(true);
 
@@ -201,10 +201,31 @@ export const TransactionContextProvider: FC<PropsWithChildren> = ({
     await refreshTransactions();
   };
 
-  const resetFilter = () => {
+  const resetFilter = useCallback(async () => {
+    if (!user) return;
+    setLoading(true);
     setFilters(filterInitialData);
-    fetchTransactions({ page: 1 });
-  };
+    setSearchText("");
+
+    const response = await dtMoneyService.getTransactions({
+      page: 1,
+      perPage: pagination.perPage,
+      userId: user.id,
+      searchText: "",
+      categoryIds: [],
+    });
+
+    setTransactions(response.data);
+
+    setTotalTransactions(response.totalTransactions);
+    setPagination({
+      ...pagination,
+      page: 1,
+      totalRows: response.totalRows,
+    });
+    setTotalPages(response.totalPages);
+    setLoading(false);
+  }, [pagination, user, searchText]);
 
   return (
     <TransactionContext.Provider

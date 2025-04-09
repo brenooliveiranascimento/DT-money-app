@@ -24,6 +24,11 @@ const FiltroTransacoes = () => {
     }
   };
 
+  const handleResetFilter = () => {
+    resetFilter();
+    close();
+  };
+
   return (
     <View className="flex-1 bg-gray[1000] p-6">
       <View className="flex-row justify-between">
@@ -41,7 +46,7 @@ const FiltroTransacoes = () => {
 
       <View className="flex-row w-full gap-4 mb-4 mt-8">
         <TouchableOpacity
-          onPress={resetFilter}
+          onPress={handleResetFilter}
           className=" border-accent-brand bg-none border-2 py-4 rounded-[8] items-center flex-1"
         >
           <Text className="text-accent-brand font-medium text-lg">
